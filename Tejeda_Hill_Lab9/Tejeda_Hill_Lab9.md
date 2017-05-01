@@ -34,6 +34,7 @@ Run the following commands.
 
 git help returns a list of all the common commands used.	
 
+
     ```
 
 2.  What does `-ag` cause `git help` to do?
