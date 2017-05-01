@@ -31,6 +31,7 @@ Run the following commands.
 1.  What does `git help` do?
 
     ```
+
 git help returns a list of all the common commands used.	
 
     ```
