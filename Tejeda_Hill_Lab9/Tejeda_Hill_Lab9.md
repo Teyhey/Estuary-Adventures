@@ -208,16 +208,14 @@ Run the following commands:
     going on.
 
     ```
-
-
-
+	We see that there is a “movies.txt” that is staged and one that is unstaged. What 	we believe is going on is that the changes made to the file need to be added so 	that why there is only one “movies.txt” thats shows up.
     ```
 
 5.  Delete `names.txt`. Then run `git status`. What do you observe?
     Explain what you think is going on.
 
     ```
-	We see that there is a “movies.txt” that is staged and one that is unstaged. What 	we believe is going on is that the changes made to the file need to be added so 	that why there is only one “movies.txt” thats shows up.
+	
     ```
 
 6.  Rename `movies.txt` to `last-movies`. Run `git status`. Observe
