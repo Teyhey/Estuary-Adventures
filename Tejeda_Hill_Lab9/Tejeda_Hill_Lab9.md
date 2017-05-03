@@ -228,7 +228,8 @@ Run the following commands:
     Explain what you think is going on.
 
     ```
-	
+	What we observe is that “names.txt” still shows up as an unstaged change.
+	We believe this is because the deletion changes has not been updated.
     ```
 
 6.  Rename `movies.txt` to `last-movies`. Run `git status`. Observe
