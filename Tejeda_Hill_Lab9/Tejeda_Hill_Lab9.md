@@ -15,7 +15,6 @@ This file is the deliverable for this lab, so make sure you do not forget to pus
 
     ```
 John Tejeda, and Tyler Hill.
-
     ```
 
 
@@ -31,18 +30,13 @@ Run the following commands.
 1.  What does `git help` do?
 
     ```
-
 git help returns a list of all the common commands used.	
-
-
     ```
 
 2.  What does `-ag` cause `git help` to do?
 
     ```
-
 “git help -ag” returns a list of all the commands available.
-
     ```
 
 G. Basic commands
@@ -68,21 +62,18 @@ Run `git status` before and after each of these commands.
 
     ```
 ‘git status’ tells you when there are files or folders that are not tracked and which ones have not been committed yet.
-
     ```
 
 2.  What does `git add names.txt` do?
 
     ```
 ‘git add names.txt’ adds the file to your local repo.
-
     ```
 
 3.  What does `git commit -m "Add our names."` do?
 
     ```
 ‘git commit -m “Add our names.”’ commits the file so it can be pushed, and once its pushed there will be a message on your GitHub online repo that says “Add our names.”.
-
     ```
 
 Use a plain text editor to create the following files:
@@ -102,15 +93,12 @@ Run `git status` before and after each of these commands.
 
     ```
 ‘git add .’ adds all the files that need to be added at once as opposed to doing it one by one.
-
     ```
 
 5.  What does `git commit` (without -m) do?
 
     ```
-
 ‘git commit’ without the -m allows for a multiline commit message
-
     ```
 
 6.  If you want to write a more detailed commit message (which is
@@ -118,14 +106,12 @@ Run `git status` before and after each of these commands.
 
     ```
 One would choose ‘git commit’ over ‘git commit -m’ because ‘git commit’ allows one to write multi-line text.
-
     ```
 
 7.  What does `git log do`?
 
     ```
 ‘git log’ provides a list that contains the dates and times for each commit thats been done.
-
     ```
 
 
@@ -155,43 +141,36 @@ Run the following commands:
 
     ```
 names.txt
-
     ```
 
     **Unstaged**
 
     ```
 movies.txt
-
     ```
 
     **Untracked**
 
     ```
 foods.txt
-
     ```
 
 1.  If you run `git commit` what changes will be committed (***DON’T DO IT***)?
 
     ```
-
 If I were to run ‘git commit’ then “names.txt” would be the file thats committed and both “foods.txt” and “movies.txt” won’t be since they are not staged.
-
     ```
 
 2.  What command do you run to stage changes?
 
     ```
 ‘git add <file>…’ and ‘git checkout — <file>…’ would stage a file so it could be committed.
-
     ```
 
 3.  What command do you run to unstage changes?
 
     ```
 ‘git reset HEAD <file>…’ would be used to unstage a file.
-
     ```
 
 Run the following commands:
@@ -203,14 +182,12 @@ Run the following commands:
 
     ```
 ‘git diff’ shows the changes made to the unstaged file with what was there before and what is there now.
-
     ```
 
 2.  What does `git diff --cached` display?
 
     ```
 ‘git diff —cached’ shows the changes made to the staged file with what was there before and what is there currently.
-
     ```
 
 3.  Formulate a sequence of commands to unstage changes to `names.txt`,
@@ -224,7 +201,6 @@ List of commands used:
 	‘git status’
 
 After performing ‘git status’ we see that “movies.txt” is now staged and “names.txt” is unstaged.
-
     ```
 
 4.  Edit `movies.txt`, change any one of the movies, and save it. Then
@@ -242,7 +218,6 @@ After performing ‘git status’ we see that “movies.txt” is now staged and
 
     ```
 We see that there is a “movies.txt” that is staged and one that is unstaged. What we believe is going on is that the changes made to the file need to be added so that why there is only one “movies.txt” thats shows up.
-
     ```
 
 6.  Rename `movies.txt` to `last-movies`. Run `git status`. Observe
@@ -250,7 +225,6 @@ We see that there is a “movies.txt” that is staged and one that is unstaged.
 
     ```
 We see that “movies.txt” is marked as deleted in the unstaged section but still shows up in the staged section. Also, “last-movies.txt” is an untracked file.
-
     ```
 
 7.  Formulate a sequence of commands to stage all changes including the
@@ -264,7 +238,6 @@ List of commands:
 	‘git status’
 
 After performing ‘git status’ we get the message that the working tree is clean.
-
     ```
 
 8.  In git vernacular, `index`, `cache`, and `stage` all refer to the
@@ -272,7 +245,6 @@ After performing ‘git status’ we get the message that the working tree is cl
 
     ```
 The ‘stage’ / ‘index’ holds a list of paths and their object names.
-
     ```
 
 9.  Why have a `stage`? Why not just commit all changes since the last
@@ -280,7 +252,6 @@ The ‘stage’ / ‘index’ holds a list of paths and their object names.
 
     ```
 A ‘stage’ is important to have because it allows for the file to be held in a spot before committing, this allows commits to be able to change.
-
     ```
 
 I. Undo
@@ -298,7 +269,6 @@ Run the following commands:
 
     ```
 It seems that `git reset --soft ``"HEAD^”’ undoes any commits that were previously made.
-
     ```
 
 Run the following commands:
@@ -314,28 +284,24 @@ Run the following commands:
 
     ```
 It seems `git reset --hard ``"HEAD^"` sets the head to be the most recent commit message and throws away all other committed changes made.
-
     ```
 
 2.  What is the difference between `--hard` and `--soft`?
 
     ```
 When calling ‘— soft’ the commit is undone. When calling ‘— hard’ the commit is thrown away.
-
     ```
 
 3.  What do you think `HEAD` means?
 
     ```
 We think ‘HEAD’ means the reference to the current commit made.
-
     ```
 
 4.  What do you think `HEAD^` means?
 
     ```
 We think ‘HEAD^’ means the reference to the commit before the current one.
-
     ```
 
 J. Helpful resources
