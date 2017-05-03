@@ -61,7 +61,8 @@ Run `git status` before and after each of these commands.
 1.  What kind of information does `git status` report?
 
     ```
-	‘git status’ tells you when there are files or folders that are not tracked and 	which ones have not been committed yet.
+	‘git status’ tells you when there are files or folders that are not tracked and
+	which ones have not been committed yet.
     ```
 
 2.  What does `git add names.txt` do?
@@ -73,7 +74,9 @@ Run `git status` before and after each of these commands.
 3.  What does `git commit -m "Add our names."` do?
 
     ```
-	‘git commit -m “Add our names.”’ commits the file so it can be pushed, and once 	its pushed there will be a message on your GitHub online repo that says “Add our 	names.”.
+	‘git commit -m “Add our names.”’ commits the file so it can be pushed, and once
+	its pushed there will be a message on your GitHub online repo that says “Add our
+	names.”.
     ```
 
 Use a plain text editor to create the following files:
@@ -92,7 +95,8 @@ Run `git status` before and after each of these commands.
 4.  What does `git add .` do? What do you think `.` means?
 
     ```
-	‘git add .’ adds all the files that need to be added at once as opposed to doing 	it one by one.
+	‘git add .’ adds all the files that need to be added at once as opposed to doing
+	it one by one.
     ```
 
 5.  What does `git commit` (without -m) do?
@@ -105,13 +109,15 @@ Run `git status` before and after each of these commands.
     good practice) what command would you use?
 
     ```
-	One would choose ‘git commit’ over ‘git commit -m’ because ‘git commit’ allows one 	to write multi-line text.
+	One would choose ‘git commit’ over ‘git commit -m’ because ‘git commit’ allows one
+	to write multi-line text.
     ```
 
 7.  What does `git log do`?
 
     ```
-	‘git log’ provides a list that contains the dates and times for each commit thats 	been done.
+	‘git log’ provides a list that contains the dates and times for each commit thats
+	been done.
     ```
 
 
@@ -158,13 +164,15 @@ Run the following commands:
 1.  If you run `git commit` what changes will be committed (***DON’T DO IT***)?
 
     ```
-	If I were to run ‘git commit’ then “names.txt” would be the file thats committed 	and both “foods.txt” and “movies.txt” won’t be since they are not staged.
+	If I were to run ‘git commit’ then “names.txt” would be the file thats committed
+	and both “foods.txt” and “movies.txt” won’t be since they are not staged.
     ```
 
 2.  What command do you run to stage changes?
 
     ```
-	‘git add <file>…’ and ‘git checkout — <file>…’ would stage a file so it could be 	committed.
+	‘git add <file>…’ and ‘git checkout — <file>…’ would stage a file so it could be
+	committed.
     ```
 
 3.  What command do you run to unstage changes?
@@ -181,13 +189,15 @@ Run the following commands:
 1.  What does `git diff` display?
 
     ```
-	‘git diff’ shows the changes made to the unstaged file with what was there before 	and what is there now.
+	‘git diff’ shows the changes made to the unstaged file with what was there before
+	and what is there now.
     ```
 
 2.  What does `git diff --cached` display?
 
     ```
-	‘git diff —cached’ shows the changes made to the staged file with what was there 	before and what is there currently.
+	‘git diff —cached’ shows the changes made to the staged file with what was there
+	before and what is there currently.
     ```
 
 3.  Formulate a sequence of commands to unstage changes to `names.txt`,
@@ -200,7 +210,8 @@ Run the following commands:
 	‘git add movies.txt’
 	‘git status’
 
-	After performing ‘git status’ we see that “movies.txt” is now staged and 	“names.txt” is unstaged.
+	After performing ‘git status’ we see that “movies.txt” is now staged and
+	“names.txt” is unstaged.
     ```
 
 4.  Edit `movies.txt`, change any one of the movies, and save it. Then
