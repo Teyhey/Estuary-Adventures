@@ -209,7 +209,8 @@ Run the following commands:
 
     ```
 	We see that there is a “movies.txt” that is staged and one that is unstaged. 
-	What we believe is going on is that the changes made to the file need to be added	so that why there is only one “movies.txt” thats shows up.
+	What we believe is going on is that the changes made to the file need to be added
+	so thats why there is only one “movies.txt” thats shows up.
     ```
 
 5.  Delete `names.txt`. Then run `git status`. What do you observe?
