@@ -235,7 +235,8 @@ Run the following commands:
     and explain.
 
     ```
-	We see that “movies.txt” is marked as deleted in the unstaged section but still 	shows up in the staged section. Also, “last-movies.txt” is an untracked file.
+	We see that “movies.txt” is marked as deleted in the unstaged section but still
+	shows up in the staged section. Also, “last-movies.txt” is an untracked file.
     ```
 
 7.  Formulate a sequence of commands to stage all changes including the
@@ -262,7 +263,8 @@ Run the following commands:
     commit?
 
     ```
-	A ‘stage’ is important to have because it allows for the file to be held in a spot 	before committing, this allows commits to be able to change.
+	A ‘stage’ is important to have because it allows for the file to be held in a spot
+	before committing, this allows commits to be able to change.
     ```
 
 I. Undo
@@ -279,7 +281,8 @@ Run the following commands:
 1.  What does `git reset --soft ``"HEAD^" `do?
 
     ```
-	It seems that `git reset --soft ``"HEAD^”’ undoes any commits that were previously 	made.
+	It seems that `git reset --soft ``"HEAD^”’ undoes any commits that were previously
+	made.
     ```
 
 Run the following commands:
@@ -294,13 +297,15 @@ Run the following commands:
 1.  What does `git reset --hard ``"HEAD^"`` `do?
 
     ```
-	It seems `git reset --hard ``"HEAD^"` sets the head to be the most recent commit 	message and throws away all other committed changes made.
+	It seems `git reset --hard ``"HEAD^"` sets the head to be the most recent commit
+	message and throws away all other committed changes made.
     ```
 
 2.  What is the difference between `--hard` and `--soft`?
 
     ```
-	When calling ‘— soft’ the commit is undone. When calling ‘— hard’ the commit is 	thrown away.
+	When calling ‘— soft’ the commit is undone. When calling ‘— hard’ the commit is
+	thrown away.
     ```
 
 3.  What do you think `HEAD` means?
