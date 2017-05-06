@@ -5,7 +5,8 @@ public class Item {
 
 	String itemType;
 	int quantity;
-	Position place;
+	public int xCoord;
+	public int yCoord;
 
 	public Item(String n, int q) {
 		this.itemType = n;
@@ -28,17 +29,29 @@ public class Item {
 		this.quantity = quantity;
 	}
 
-	public Position getPlace() {
-		return place;
+	public int getxCoord() {
+		return xCoord;
 	}
 
-	public void setPlace(Position place) {
-		this.place = place;
+	public void setxCoord(int xCoord) {
+		this.xCoord = xCoord;
+	}
+
+	public int getyCoord() {
+		return yCoord;
+	}
+
+	public void setyCoord(int yCoord) {
+		this.yCoord = yCoord;
 	}
 
 	@Override
 	public String toString() {
-		return "Item [itemType=" + itemType + ", quantity=" + quantity + ", place=" + place + "]";
+		return "Item [itemType=" + itemType + ", quantity=" + quantity + ", xCoord=" + xCoord + ", yCoord=" + yCoord
+				+ "]";
 	}
 
+	
+	
+	
 }

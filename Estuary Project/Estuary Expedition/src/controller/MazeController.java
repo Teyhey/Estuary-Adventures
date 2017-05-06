@@ -15,7 +15,10 @@ public class MazeController implements KeyListener {
 	public int xIncr;
 	public int yIncr;
 	public MazeModel maze;
-
+	int frameWidth = 1280;
+	int frameHeight = 800;
+	int padding = 100;
+	
 	public MazeController() {
 		maze = new MazeModel();
 		this.xIncr = 40;
@@ -26,6 +29,7 @@ public class MazeController implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			maze.player.setxCoord(maze.player.xCoord += xIncr);
+			fishMovement();
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			maze.player.setxCoord(maze.player.xCoord -= xIncr);
 		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -39,6 +43,7 @@ public class MazeController implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			maze.player.setxCoord(maze.player.xCoord += xIncr);
+			fishMovement();
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			maze.player.setxCoord(maze.player.xCoord -= xIncr);
 		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -51,4 +56,22 @@ public class MazeController implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 	}
+	
+	
+	public void fishMovement(){
+		
+		while(maze.enemy.xCoord > 0 && maze.enemy.xCoord < frameWidth){
+			if(maze.enemy.xCoord >= (frameWidth - padding)){
+				maze.enemy.xCoord -= maze.enemy.getSpeed();
+			}
+			if(maze.enemy.xCoord <= padding){
+				maze.enemy.xCoord += maze.enemy.getSpeed();
+			}
+		}
+		
+	}
+	
+	
+	
+	
 }

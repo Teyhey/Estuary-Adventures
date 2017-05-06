@@ -22,6 +22,7 @@ public class Player {
 	public Player(int x, int y) {
 		this.setyCoord(x);
 		this.setyCoord(y);
+		this.health = 10;
 	}
 
 	public int getxCoord() {

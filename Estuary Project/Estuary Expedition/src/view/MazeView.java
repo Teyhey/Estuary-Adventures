@@ -29,7 +29,9 @@ public class MazeView extends MazeController{
 	String playerIcon;
 	String salinity;
 	String timer;
-	JTextArea holder = new JTextArea ("Work in Progress :)");
+	String badGuy;
+	//String rocks;
+	//JTextArea holder = new JTextArea ("Work in Progress :)");
 	JButton backButton;
 	
 	/**
@@ -60,6 +62,7 @@ public class MazeView extends MazeController{
 		playerIcon = "Game Files/bluecrab_back.png";
 		salinity = "Game Files/SalinityMeter.png";
 		timer = "Game Files/timer.png";
+		badGuy = "Game Files/fish_bass_right.png";
 	}
 	
 	/**
@@ -72,16 +75,20 @@ public class MazeView extends MazeController{
 		BufferedImage icon;
 		BufferedImage salt;
 		BufferedImage clock;
+		BufferedImage enemy;
 			BufferedImage background = ImageIO.read(new File("Game Files/MazeIntro.png"));
 			g.drawImage(background, 0, 0, null);
 			
 			icon = ImageIO.read(new File(playerIcon));
 			salt = ImageIO.read(new File(salinity));
 			clock = ImageIO.read(new File(timer));
+			enemy = ImageIO.read(new File(badGuy));
+			
 			
 			g.drawImage(icon, this.maze.player.getxCoord() , this.maze.player.getyCoord(), null);
 			g.drawImage(salt, 1175 , 475, null);
 			g.drawImage(clock, 975 , 10, null);
+			g.drawImage(enemy, this.maze.enemy.getxCoord(), this.maze.enemy.getyCoord(), null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
