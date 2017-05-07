@@ -13,7 +13,6 @@ public class BeachController implements KeyListener{
 	public int xIncr;
 	public int yIncr;
 	public BeachModel beach;
-
 	public BeachController() {
 		beach = new BeachModel();
 		this.xIncr = 35;

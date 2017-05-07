@@ -3,25 +3,23 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Player {
-
-	public int xCoord;
-	public int yCoord;
-	int health;
+public class Player extends Character{
+	
+	public int health = 10;
 	int enemyFish;
 	int numPowerUps;
 	int difficulty;
 	boolean isDead;
+	
 	ArrayList<Boat> boats;
 	ArrayList<Wave> waves;
 	ArrayList<Obstacle> obstacles;
 	ArrayList<Item> inventory;
 	ArrayList<Enemy> enemies;
-
+	
 
 	public Player(int x, int y) {
-		this.setyCoord(x);
-		this.setyCoord(y);
+		super (x, y);
 		this.health = 10;
 	}
 
@@ -40,6 +38,23 @@ public class Player {
 	public void setyCoord(int yCoord) {
 		this.yCoord = yCoord;
 	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
 
 	public void movePlayer() {
 

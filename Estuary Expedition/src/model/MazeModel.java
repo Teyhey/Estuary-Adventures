@@ -16,6 +16,7 @@ public class MazeModel{
 	
 	public MazeModel() {
 		player = new Player(0, frameHeight/2);
-		enemy = new Enemy("Fish", 5, 60, 0, 60);
+		enemy = new Enemy("Fish", 5, 5, 0, 60);
+		obstacle = new Obstacle(400, 300);
 	}
 }
