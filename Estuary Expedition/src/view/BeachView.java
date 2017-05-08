@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -70,6 +71,7 @@ public class BeachView extends BeachController {
 		backButton.setSize(buttonWidth, buttonHeight);
 		backButton.setLocation(0, 0);
 
+		/*
 		addGabion = new JButton("Add Gabion" + " " + "x" + this.beach.numGabions);
 		addGabion.setSize(inventWidth, inventHeight);
 		addGabion.setLocation(0, 640);
@@ -81,16 +83,16 @@ public class BeachView extends BeachController {
 		addGrass = new JButton("Add Grass" + " " + "x" + this.beach.numGrass);
 		addGrass.setSize(inventWidth, inventHeight);
 		addGrass.setLocation(0 + buttonWidth * 4, 640);
-
+*/
 		playerIcon = "Game Files/crab.png";
 		timer = "Game Files/timer.png";
 		inventory = "Game Files/Inventory.png";
 		wave = "Game Files/splashSMALL.png";
 		boatL = "Game Files/dirtyvesselLeft.png";
 		boatR = "Game Files/dirtyvesselRight.png";
-		gabion = "Game Files/net(1).png";
+		gabion = "Game Files/gabion.png";
 		wall = "Game Files/SeaWallIcon.png";
-		grass = "Game Files/Grass_disabled.png";
+		grass = "Game Files/grass.png";
 	}
 
 	/**
@@ -133,10 +135,7 @@ public class BeachView extends BeachController {
 			Wally = ImageIO.read(new File(wall));
 			Gass = ImageIO.read(new File(grass));
 
-			/*
-			 * backButton.repaint(); addGabion.repaint(); addWall.repaint();
-			 * addGrass.repaint();
-			 */
+			
 
 			g.drawImage(icon, this.beach.player.getxCoord(), this.beach.player.getyCoord(), null);
 			g.drawImage(slots, 0, 654, null);
@@ -173,17 +172,25 @@ public class BeachView extends BeachController {
 
 			g.drawImage(clock, 975, 10, null);
 
+			backButton.paint(g);
+			//addGabion.paint(g);
+			//addWall.paint(g);
+			//addGrass.paint(g);
+			
+			
 			// Adding images of beach fortifications
+			
+			
 			if (this.beach.addedGab) {
-				g.drawImage(Gabby, this.beach.player.getxCoord(), this.beach.player.getyCoord(), null);
+				g.drawImage(Gabby, this.beach.gabion.xCoord, this.beach.gabion.yCoord, null);
 			}
 
 			if (this.beach.addedWal) {
-				g.drawImage(Wally, this.beach.player.getxCoord(), this.beach.player.getyCoord(), null);
+				g.drawImage(Wally, this.beach.wall.xCoord, this.beach.wall.yCoord, null);
 			}
 
 			if (this.beach.addedGra) {
-				g.drawImage(Gass, this.beach.player.getxCoord(), this.beach.player.getyCoord(), null);
+				g.drawImage(Gass, this.beach.grass.xCoord, this.beach.grass.yCoord, null);
 			}
 
 		} catch (IOException e) {

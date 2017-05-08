@@ -179,6 +179,7 @@ public class GameView extends JPanel {
 		JFrame frame = new JFrame();
 		((BeachView) this.currGame).getBackButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				setGameState("Menu");
 				setCurrGame(new MenuView());
 				//frame.getContentPane().removeAll();
@@ -187,8 +188,10 @@ public class GameView extends JPanel {
 			}
 		});
 
+		/*
 		((BeachView) this.currGame).getAddGabion().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				//((BeachView) this.currGame).beach.placeGabion();
 				frame.repaint();	
 			}
@@ -196,22 +199,25 @@ public class GameView extends JPanel {
 
 		((BeachView) this.currGame).getAddWall().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//((BeachView) this.currGame).placeWall();
+				//((BeachView) this.currGame).beach.placeWall();
 				frame.repaint();	
 			}
 		});
 
 		((BeachView) this.currGame).getAddGrass().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//((BeachView) this.currGame).placeGrass();
+				//((BeachView) this.currGame).beach.placeGrass();
 				frame.repaint();	
 			}
 		});
+		
 
-		frame.add(((BeachView) this.currGame).getBackButton());
+		
 		frame.add(((BeachView) this.currGame).getAddGabion());
 		frame.add(((BeachView) this.currGame).getAddWall());
 		frame.add(((BeachView) this.currGame).getAddGrass());
+		*/
+		frame.add(((BeachView) this.currGame).getBackButton());
 		frame.getContentPane().add(this).setBackground(Color.gray);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(this.frameWidth, this.frameHeight);
@@ -311,7 +317,6 @@ public class GameView extends JPanel {
 
 		if (gameState == "Beach") {
 			((BeachView) currGame).draw(g);
-
 			if (timeLeft % 60 < 10) {
 				String countDown = timeLeft / 60 + ":" + "0" + timeLeft % 60;
 				g.setFont(new Font("ComicSans", Font.PLAIN, 40));
@@ -327,6 +332,7 @@ public class GameView extends JPanel {
 		if (gameState == "Cube") {
 			((CubeView) currGame).draw(g);
 		}
+		
 	}
 
 	public void tick() {

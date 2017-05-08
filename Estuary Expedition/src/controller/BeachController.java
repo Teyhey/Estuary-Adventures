@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -9,8 +10,10 @@ import model.BeachModel;
 import model.Boat;
 import model.Character;
 import model.Enemy;
+import model.Item;
 import model.MazeModel;
 import model.Obstacle;
+import model.Player;
 import model.Wave;
 
 public class BeachController implements KeyListener {
@@ -24,7 +27,7 @@ public class BeachController implements KeyListener {
 	int time;
 	boolean hitWater = false;
 	boolean hitBarrier = false;
-	int collision;
+	int collision = 10;
 
 	public BeachController() {
 		beach = new BeachModel();
@@ -41,20 +44,23 @@ public class BeachController implements KeyListener {
 	}
 
 	private void move() {
-		for(Boat b: beach.boats){
-		boatMove(b);
+		for (Boat b : beach.boats) {
+			boatMove(b);
 		}
-		
-		for(Wave w: beach.waves){
+
+		for (Wave w : beach.waves) {
 			waveMove(w);
 		}
-		
+
 		waveMove(beach.wave);
 		checkBorders(beach.player);
 		checkXCollisionRight(beach.player, beach.wave);
 		checkXCollisionLeft(beach.player, beach.wave);
 		checkYCollisionUp(beach.player, beach.wave);
 		checkYCollisionDown(beach.player, beach.wave);
+		//checkVerticalHit(beach.wave, beach.gabion);
+		//checkVerticalHit(beach.wave, beach.wall);
+		//checkVerticalHit(beach.wave, beach.grass);
 	}
 
 	private void checkBorders(Character c) {
@@ -144,10 +150,10 @@ public class BeachController implements KeyListener {
 		boatHorizontal(e);
 	}
 
-	private void waveMove(Wave w){
-			waveVeritcal(w);
+	private void waveMove(Wave w) {
+		waveVeritcal(w);
 	}
-	
+
 	private void boatHorizontal(Boat e) {
 		if (e.xCoord <= -1) {
 			e.xCoord = 0;
@@ -162,7 +168,6 @@ public class BeachController implements KeyListener {
 		}
 	}
 
-	
 	private void waveVeritcal(Wave w) {
 		if (w.yCoord <= -1) {
 			w.yCoord = 0;
@@ -176,6 +181,66 @@ public class BeachController implements KeyListener {
 			}
 		}
 	}
+	
+	private void checkVerticalHit(Wave w, Item i){
+		if (waveHitGabion(w)){
+			if (i.xCoord + i.width/2 >= w.xCoord + w.width/2){
+				i.xCoord = w.xCoord + i.width + (collision*2);
+			}
+			else {
+				i.xCoord = w.xCoord - i.width - (collision*2);
+			}
+			i.health -= w.getDamage();
+		}
+		if (waveHitWall(w)){
+			if (i.xCoord + i.width/2 >= w.xCoord + w.width/2){
+				i.xCoord = w.xCoord + i.width + (collision*2);
+			}
+			else {
+				i.xCoord = w.xCoord - i.width - (collision*2);
+			}
+			i.health -= w.getDamage();
+		}
+		if (waveHitGrass(w)){
+			if (i.xCoord + i.width/2 >= w.xCoord + w.width/2){
+				i.xCoord = w.xCoord + i.width + (collision*2);
+			}
+			else {
+				i.xCoord = w.xCoord - i.width - (collision*2);
+			}
+			i.health -= w.getDamage();
+		}
+	}
+
+	public boolean waveHitGabion(Wave w) {
+		hitBarrier = false;
+		Rectangle barrierz = new Rectangle(beach.gabion.xCoord, beach.gabion.yCoord, beach.gabion.xCoord, beach.gabion.yCoord);
+		Rectangle wavez = new Rectangle(w.xCoord, w.yCoord, w.width - collision, w.height - collision);
+		if (barrierz.intersects(wavez)) {
+			hitBarrier = true;
+		}
+		return hitBarrier;
+	}
+
+	public boolean waveHitWall(Wave w) {
+		hitBarrier = false;
+		Rectangle barrierz = new Rectangle(beach.wall.xCoord, beach.wall.yCoord, beach.wall.xCoord, beach.wall.yCoord);
+		Rectangle wavez = new Rectangle(w.xCoord, w.yCoord, w.width - collision, w.height - collision);
+		if (barrierz.intersects(wavez)) {
+			hitBarrier = true;
+		}
+		return hitBarrier;
+	}
+
+	public boolean waveHitGrass(Wave w) {
+		hitBarrier = false;
+		Rectangle barrierz = new Rectangle(beach.grass.xCoord, beach.grass.yCoord, beach.grass.xCoord, beach.grass.yCoord);
+		Rectangle wavez = new Rectangle(w.xCoord, w.yCoord, w.width - collision, w.height - collision);
+		if (barrierz.intersects(wavez)) {
+			hitBarrier = true;
+		}
+		return hitBarrier;
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -187,6 +252,12 @@ public class BeachController implements KeyListener {
 			setyVel(-5);
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			setyVel(5);
+		} else if (e.getKeyCode() == KeyEvent.VK_1) {
+			beach.placeGabion();
+		} else if (e.getKeyCode() == KeyEvent.VK_2) {
+			beach.placeWall();
+		} else if (e.getKeyCode() == KeyEvent.VK_3) {
+			beach.placeGrass();
 		}
 	}
 
@@ -277,7 +348,6 @@ public class BeachController implements KeyListener {
 		this.hitBarrier = hitBarrier;
 	}
 
-	
 	public int getCollision() {
 		return collision;
 	}

@@ -7,10 +7,27 @@ public class Item {
 	int quantity;
 	public int xCoord = 400;
 	public int yCoord = 200;
+	public int width = 0;
+	public int height = 0;
+	public int health = 10;
 
 	public Item(String n, int q) {
 		this.itemType = n;
 		this.quantity = q;
+		
+		if(n.equals("Gabion")){
+			health = 10;
+		}
+		if(n.equals("Wall")){
+			health = 15;
+		}
+		if(n.equals("Grass")){
+			health = 5;
+		}
+		height = 0;
+		width = 0;
+		xCoord = 400;
+		yCoord = 200;
 	}
 
 	

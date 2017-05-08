@@ -47,9 +47,9 @@ public class BeachModel {
 
 	public boolean placeGabion(){
 		this.gabion = new Item("Gabion", 1);
-		this.gabion.xCoord = this.player.xCoord;
-		this.gabion.yCoord = this.player.yCoord;
-		this.gabions.add(this.gabion);
+		this.gabion.xCoord = this.player.getxCoord();
+		this.gabion.yCoord = this.player.getyCoord();
+		//this.gabions.add(this.gabion);
 		this.numGabions++;
 		addedGab = true;
 		return addedGab;
@@ -59,7 +59,7 @@ public class BeachModel {
 		this.wall = new Item("Wall", 1);
 		this.wall.xCoord = this.player.xCoord;
 		this.wall.yCoord = this.player.yCoord;
-		this.walls.add(this.gabion);
+		//this.walls.add(this.gabion);
 		this.numWalls++;
 		addedWal = true;
 		return addedWal;
@@ -68,8 +68,8 @@ public class BeachModel {
 	public boolean placeGrass(){
 		this.grass = new Item("Gabion", 1);
 		this.grass.xCoord = this.player.xCoord;
-		this.grass.yCoord = this.player.yCoord;
-		this.grasses.add(this.gabion);
+		this.grass.yCoord = this.player.yCoord - 35;
+	//	this.grasses.add(this.gabion);
 		this.numGrass++;
 		addedGra = true;
 		return addedGra;
