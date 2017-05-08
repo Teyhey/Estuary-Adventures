@@ -1,20 +1,29 @@
 package model;
 
 
-public class Enemy {
+public class Enemy extends Character{
+	int direction;
 	String enemyType;
-	int damage;
+	int damage = 5;
 	int speed;
-	public int xCoord;
-	public int yCoord;
 	
-	public Enemy(String s, int d, int sp, int x, int y) {
+	public Enemy(int dir, String s, int d, int sp, int x, int y) {
+		super(x, y);
+		this.direction = dir;
 		this.enemyType = s;
 		this.damage = d;
 		this.speed = sp;
-		this.xCoord = x;
-		this.yCoord = y;
 	}
+	
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
+
 
 	public String getEnemyType() {
 		return enemyType;

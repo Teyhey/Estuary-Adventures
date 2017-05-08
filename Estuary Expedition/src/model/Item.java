@@ -5,14 +5,16 @@ public class Item {
 
 	String itemType;
 	int quantity;
-	public int xCoord;
-	public int yCoord;
+	public int xCoord = 400;
+	public int yCoord = 200;
 
 	public Item(String n, int q) {
 		this.itemType = n;
 		this.quantity = q;
 	}
 
+	
+	
 	public String getItemType() {
 		return itemType;
 	}

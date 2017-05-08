@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 
 import controller.BeachController;
+import model.Boat;
+import model.Enemy;
 
 public class BeachView extends BeachController {
 	
@@ -17,19 +19,31 @@ public class BeachView extends BeachController {
 	 * This class handles the view components for the Beach Game.
 	 * @param
 	 * @author John Tejeda, Tyler Hill, Stephen Lu, Devarshi Patel
-	 * @version ALPHA
+	 * @version BETA
 	 */
 
-	int buttonWidth = 50;
+	int buttonWidth = 75;
 	int buttonHeight = 50;
+	int inventWidth = 110;
+	int inventHeight = 100;
 	int frameWidth = 1280;
 	int frameHeight = 800;
+	
 	String playerIcon;
-	String boat;
+	String boatL;
+	String boatR;
 	String timer;
 	String inventory;
-	JTextArea holder = new JTextArea("THIS IS THE BARRIER GAME");
+	String wave;
+	String gabion;
+	String wall;
+	String grass;
+	String[] boatz = {"Game Files/dirtyvesselRight.png", "Game Files/dirtyvesselLeft.png"};
+	
 	JButton backButton;
+	JButton addGabion;
+	JButton addWall;
+	JButton addGrass;
 
 	/**
 	 * This method is fairly straight forward.
@@ -53,12 +67,29 @@ public class BeachView extends BeachController {
 		backButton = new JButton("Exit");
 		backButton.setSize(buttonWidth, buttonHeight);
 		backButton.setLocation(0, 0);
-		// holder.setSize(200, 200);
-		// holder.setLocation(200, 200);
+		
+		addGabion = new JButton("Add Gabion" + " " +"x" + this.beach.numGabions);
+		addGabion.setSize(inventWidth, inventHeight);
+		addGabion.setLocation(0, 640);
+		
+		
+		addWall = new JButton("Add Wall" + " " + "x" + this.beach.numWalls);
+		addWall.setSize(inventWidth, inventHeight);
+		addWall.setLocation(0 + buttonWidth*2, 640);
+		
+		addGrass = new JButton("Add Grass" + " " + "x" + this.beach.numGrass);
+		addGrass.setSize(inventWidth, inventHeight);
+		addGrass.setLocation(0 + buttonWidth*4, 640);
 
 		playerIcon = "Game Files/crab.png";
 		timer = "Game Files/timer.png";
 		inventory = "Game Files/Inventory.png";
+		wave = "Game Files/splashSMALL.png";
+		boatL = "Game Files/dirtyvesselLeft.png";
+		boatR = "Game Files/dirtyvesselRight.png";
+		gabion = "Game Files/net(1).png";
+		wall = "Game Files/SeaWallIcon.png";
+		grass = "Game Files/Grass_disabled.png";
 	}
 
 	/**
@@ -71,19 +102,197 @@ public class BeachView extends BeachController {
 			BufferedImage icon;
 			BufferedImage clock;
 			BufferedImage slots;
-			BufferedImage background = ImageIO.read(new File("Game Files/BeachAssault.png"));
+			BufferedImage waves;
+			BufferedImage Gabby;
+			BufferedImage Wally;
+			BufferedImage Gass;
+			BufferedImage[] boats;
+			
+			boats = new BufferedImage[2];
+			for (int i = 0; i < 2; i++){
+				boats[i] = ImageIO.read(new File(boatz[i]));
+			}
+			
+			BufferedImage background = ImageIO.read(new File("Game Files/Beach.png"));
 			g.drawImage(background, 0, 0, null);
 
 			icon = ImageIO.read(new File(playerIcon));
 			clock = ImageIO.read(new File(timer));
 			slots = ImageIO.read(new File(inventory));
-
+			waves = ImageIO.read(new File(wave));
+			Gabby = ImageIO.read(new File(gabion));
+			Wally = ImageIO.read(new File(wall));
+			Gass = ImageIO.read(new File(grass));
+			
+			/*
+			backButton.repaint();
+			addGabion.repaint();
+			addWall.repaint();
+			addGrass.repaint();
+			*/
+			
+			
+			
 			g.drawImage(icon, this.beach.player.getxCoord(), this.beach.player.getyCoord(), null);
 			g.drawImage(slots, 0, 654, null);
+			
+			// need to have it constantly spawn waves
+			g.drawImage(waves, this.beach.boat.getxCoord(), this.beach.wave.getyCoord() + 160, null); 
+			
+			
+			for (Boat b: this.beach.boats){
+				if (b.getSpeed() > 0){
+					g.drawImage(boats[0], b.getxCoord(), b.getyCoord(), null);
+					b.setWidth(boats[0].getWidth());
+					b.setHeight(boats[0].getHeight());
+				}
+				if (b.getSpeed() < 0){
+					g.drawImage(boats[1], b.getxCoord(), b.getyCoord(), null);
+					b.setWidth(boats[1].getWidth());
+					b.setHeight(boats[1].getHeight());
+				}
+
+			}
 			g.drawImage(clock, 975, 10, null);
+			
+			// Adding images of beach fortifications
+			if(this.beach.addedGab){
+				g.drawImage(Gabby, this.beach.player.getxCoord(), this.beach.player.getyCoord(), null);
+			}
+			
+			if(this.beach.addedWal){
+				g.drawImage(Wally, this.beach.player.getxCoord(), this.beach.player.getyCoord(), null);
+			}
+			
+			if(this.beach.addedGra){
+				g.drawImage(Gass, this.beach.player.getxCoord(), this.beach.player.getyCoord(), null);
+			}
+			
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
+
+	public int getButtonWidth() {
+		return buttonWidth;
+	}
+
+
+	public void setButtonWidth(int buttonWidth) {
+		this.buttonWidth = buttonWidth;
+	}
+
+
+	public int getButtonHeight() {
+		return buttonHeight;
+	}
+
+
+	public void setButtonHeight(int buttonHeight) {
+		this.buttonHeight = buttonHeight;
+	}
+
+
+	public int getFrameWidth() {
+		return frameWidth;
+	}
+
+
+	public void setFrameWidth(int frameWidth) {
+		this.frameWidth = frameWidth;
+	}
+
+
+	public int getFrameHeight() {
+		return frameHeight;
+	}
+
+
+	public void setFrameHeight(int frameHeight) {
+		this.frameHeight = frameHeight;
+	}
+
+
+	public String getPlayerIcon() {
+		return playerIcon;
+	}
+
+
+	public void setPlayerIcon(String playerIcon) {
+		this.playerIcon = playerIcon;
+	}
+
+
+	
+
+
+	public String getTimer() {
+		return timer;
+	}
+
+
+	public void setTimer(String timer) {
+		this.timer = timer;
+	}
+
+
+	public String getInventory() {
+		return inventory;
+	}
+
+
+	public void setInventory(String inventory) {
+		this.inventory = inventory;
+	}
+
+
+	public String getWave() {
+		return wave;
+	}
+
+
+	public void setWave(String wave) {
+		this.wave = wave;
+	}
+
+
+	public JButton getAddGabion() {
+		return addGabion;
+	}
+
+
+	public void setAddGabion(JButton addGabion) {
+		this.addGabion = addGabion;
+	}
+
+
+	public JButton getAddWall() {
+		return addWall;
+	}
+
+
+	public void setAddWall(JButton addWall) {
+		this.addWall = addWall;
+	}
+
+
+	public JButton getAddGrass() {
+		return addGrass;
+	}
+
+
+	public void setAddGrass(JButton addGrass) {
+		this.addGrass = addGrass;
+	}
+
+
+	public void setBackButton(JButton backButton) {
+		this.backButton = backButton;
+	}
+	
+	
 
 }

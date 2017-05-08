@@ -1,20 +1,29 @@
 package model;
 
 
-public class Boat {
+public class Boat extends Character{
 	String boatType;
 	int damage;
-	int speed;
-	public int xCoord;
-	public int yCoord;
+	int speed = 2;
+	public int xCoord = 0;
+	public int yCoord = 120;
+	int direction = 0;
 	
-	public Boat(String type, int d, int s, int x, int y) 
-	{
+	
+	public Boat(int x, int y){
+		super(x, y);
+		this.boatType = "Regular";
+		this.damage = 10;
+		this.speed = 2;
+		this.direction = 0;
+	}
+	
+	
+	public Boat(String type, int d, int s, int x, int y) {
+		super(x, y);
 		this.boatType = type;
 		this.damage = d;
 		this.speed = s;
-		this.xCoord = x;
-		this.yCoord = y;
 	}
 
 	public String getBoatType() {
@@ -57,6 +66,11 @@ public class Boat {
 		this.yCoord = yCoord;
 	}
 
+
+	public int getDirection() {
+		return direction;
+	}
+	
 	@Override
 	public String toString() {
 		return "Boat [boatType=" + boatType + ", damage=" + damage + ", speed=" + speed + ", xCoord=" + xCoord

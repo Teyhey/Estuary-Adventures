@@ -1,11 +1,13 @@
 package view;
 
 import java.awt.Graphics;
+import javax.swing.JTextField;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-
+import javax.swing.Timer;
+import javax.swing.TransferHandler;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
@@ -20,7 +22,7 @@ public class CubeView extends CubeController {
 	 * @version ALPHA
 	 */
 	
-	int buttonWidth = 50;
+	int buttonWidth = 100;
 	int buttonHeight = 50;
 	int frameWidth = 1280;
 	int frameHeight = 800;
@@ -33,7 +35,10 @@ public class CubeView extends CubeController {
 	String dice3;
 	Random rand = new Random();
 	JButton backButton;
-	JButton roll;
+	JButton rollDice;
+	JButton submit;
+	JTextField userStory;
+	
 	JTextArea holder = new JTextArea("THIS IS THE CUBE GAME");
 
 	/**
@@ -52,8 +57,16 @@ public class CubeView extends CubeController {
 	 * @param none.
 	 * @return the roll JButton.
 	 */
-	public JButton getRoll(){
-		return roll;
+	public JButton getRollDiceButton(){
+		return rollDice;
+	}
+	
+	public JButton getSubmitButton(){
+		return submit;
+	}
+	
+	public JTextField getStory(){
+		return userStory;
 	}
 	
 
@@ -65,20 +78,31 @@ public class CubeView extends CubeController {
 	 */
 	public CubeView() {
 		super();
+		
 		backButton = new JButton("Exit");
 		backButton.setSize(buttonWidth, buttonHeight);
 		backButton.setLocation(0, 0);
 		
-		roll = new JButton("Roll");
-		roll.setSize(buttonWidth, buttonHeight);
-		roll.setLocation(30, 50);
+		
+		
+		rollDice = new JButton("Roll Dice");
+		rollDice.setSize(100, 50);
+		rollDice.setLocation(100, 400);
+		
+		submit = new JButton("Submit Story");
+		submit.setSize(125, 50);
+		submit.setLocation(500, 400);
+		
+		userStory = new JTextField("Enter your Story here");
+		userStory.setSize(200, 50);
+		userStory.setLocation(300, 400);
 		
 		//holder.setSize(200, 200);
 		//holder.setLocation(200, 200);
 
 		randomize();
 
-	}
+	} 
 
 	/**
 	 * This method is responsible for randomizing all three cubes
@@ -86,10 +110,13 @@ public class CubeView extends CubeController {
 	 * @return void.
 	 */
 	public void randomize(){
+
 		randomPic = rand.nextInt(dicePics.length - 1) + 0;
 		dice1 = dicePics[randomPic];
+		
 		randomPic = rand.nextInt(dicePics.length - 1) + 0;
 		dice2 = dicePics[randomPic];
+		
 		randomPic = rand.nextInt(dicePics.length - 1) + 0;
 		dice3 = dicePics[randomPic];
 	}
@@ -101,6 +128,9 @@ public class CubeView extends CubeController {
 	 */
 	public void draw(Graphics g) {
 		try {
+			
+			
+			
 			BufferedImage diceUno;
 			BufferedImage diceDos;
 			BufferedImage diceTres;
@@ -111,9 +141,18 @@ public class CubeView extends CubeController {
 			diceDos = ImageIO.read(new File(dice2));
 			diceTres = ImageIO.read(new File(dice3));
 
+			backButton.repaint();
+			rollDice.repaint();
+			submit.repaint();
+			userStory.repaint();
+			
+			
+			
+			
 			g.drawImage(diceUno, 100, 100, null);
 			g.drawImage(diceDos, 500, 100, null);
 			g.drawImage(diceTres, 900, 100, null);
+		
 
 		} catch (IOException e) {
 			e.printStackTrace();
