@@ -44,6 +44,11 @@ public class BeachController implements KeyListener {
 		for(Boat b: beach.boats){
 		boatMove(b);
 		}
+		
+		for(Wave w: beach.waves){
+			waveMove(w);
+		}
+		
 		waveMove(beach.wave);
 		checkBorders(beach.player);
 		checkXCollisionRight(beach.player, beach.wave);

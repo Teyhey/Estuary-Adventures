@@ -14,6 +14,7 @@ public class BeachModel {
 	public Item wall;
 	public Item grass;
 	public Boat[] boats;
+	public Wave[] waves;
 	public ArrayList<Item> gabions;
 	public ArrayList<Item> walls;
 	public ArrayList<Item> grasses;
@@ -41,6 +42,7 @@ public class BeachModel {
 		numWalls = 0;
 		numGrass = 0;
 		createBoats();
+		createWaves();
 	}
 
 	public boolean placeGabion(){
@@ -84,5 +86,16 @@ public class BeachModel {
 		}
 	}
 
+	public void createWaves(){
+		Random rand = new Random();
+		this.waves = new Wave[rand.nextInt(25) + 5];
+		int[] speeds = {1,2,3};
+		for (int i = 0; i < waves.length; i++){
+			int s = rand.nextInt(3);
+			waves[i] = new Wave("Small", 5, speeds[s], this.wave.getxCoord(), this.wave.getyCoord());
+		}
+		System.out.println(waves.length);
+	}
+	
 
 }
