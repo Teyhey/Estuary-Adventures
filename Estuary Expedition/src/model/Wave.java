@@ -1,7 +1,7 @@
 package model;
 
 public class Wave{
-	String waveType;
+	public String waveType;
 	int damage;
 	int speed;
 	public int xCoord = 0;
@@ -20,14 +20,27 @@ public class Wave{
 	}
 	
 	
-	public Wave(String type, int d, int s, int x, int y) {
-		this.waveType = type;
-		this.damage = d;
+	public Wave(int s, int x, int y) {
+		
+		if(s == 1){
+			waveType = "Big";
+			damage = 15;
+		}
+		
+		if(s == 2){
+			waveType = "Medium";
+			damage = 10;
+		}
+		
+		if(s == 3){
+			waveType = "Small";
+			damage = 5;
+		}
+		
 		this.speed = s;
 		this.xCoord = x;
 		this.yCoord = y;
 		direction = 0;
-		speed = 1;
 	}
 	
 	public String getwaveType() {

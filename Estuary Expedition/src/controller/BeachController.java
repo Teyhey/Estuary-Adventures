@@ -158,10 +158,13 @@ public class BeachController implements KeyListener {
 		if (e.xCoord <= -1) {
 			e.xCoord = 0;
 			e.setSpeed(e.getSpeed() * -1);
+			//this.beach.createOcean();
+			
 		} else {
 			if (e.xCoord >= frameWidth - e.width + 1) {
 				e.xCoord = frameWidth - e.width;
 				e.setSpeed(e.getSpeed() * -1);
+				//this.beach.createOcean();
 			} else {
 				e.xCoord += e.getSpeed();
 			}
@@ -256,10 +259,13 @@ public class BeachController implements KeyListener {
 			setyVel(5);
 		} else if (e.getKeyCode() == KeyEvent.VK_1) {
 			beach.placeGabion();
+			beach.createBarrier();
 		} else if (e.getKeyCode() == KeyEvent.VK_2) {
 			beach.placeWall();
+			beach.createBarrier();
 		} else if (e.getKeyCode() == KeyEvent.VK_3) {
 			beach.placeGrass();
+			beach.createBarrier();
 		}
 	}
 

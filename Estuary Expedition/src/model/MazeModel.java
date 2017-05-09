@@ -24,7 +24,7 @@ public class MazeModel{
 		int n = rand.nextInt(4) + 1;
 		this.start = n;
 		this.opacity = 250;
-		this.opacityTick = -3;
+		this.opacityTick = -1;
 		placePlayer(n, health);
 		createEnemies();
 		createObstacles();
@@ -92,7 +92,7 @@ public class MazeModel{
 		Random rand = new Random();
 		int x = start%2;
 		this.enemy = new Enemy[2];
-		int speeds[] = {-5, 5};
+		int speeds[] = {-1, 1};
 
 		if (x == 0){
 			for (int i = 0; i < 2; i++){

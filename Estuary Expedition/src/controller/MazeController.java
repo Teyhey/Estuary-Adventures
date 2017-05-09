@@ -298,13 +298,13 @@ public class MazeController implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			setxVel(5);
+			setxVel(1);
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			setxVel(-5);
+			setxVel(-1);
 		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-			setyVel(-5);
+			setyVel(-1);
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			setyVel(5);
+			setyVel(1);
 		}
 	}
 

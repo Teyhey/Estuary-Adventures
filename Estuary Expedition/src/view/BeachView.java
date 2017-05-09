@@ -42,7 +42,7 @@ public class BeachView extends BeachController {
 	String wall;
 	String grass;
 	String[] boatz = { "Game Files/dirtyvesselRight.png", "Game Files/dirtyvesselLeft.png" };
-	String[] wavez = {"Game Files/splashSMALL.png", "Game Files/splashMED.png","Game Files/splashBIG.png",};
+	String[] wavez = { "Game Files/splashSMALL.png", "Game Files/splashMED.png", "Game Files/splashBIG.png", };
 
 	JButton backButton;
 	JButton addGabion;
@@ -72,18 +72,18 @@ public class BeachView extends BeachController {
 		backButton.setLocation(0, 0);
 
 		/*
-		addGabion = new JButton("Add Gabion" + " " + "x" + this.beach.numGabions);
-		addGabion.setSize(inventWidth, inventHeight);
-		addGabion.setLocation(0, 640);
-
-		addWall = new JButton("Add Wall" + " " + "x" + this.beach.numWalls);
-		addWall.setSize(inventWidth, inventHeight);
-		addWall.setLocation(0 + buttonWidth * 2, 640);
-
-		addGrass = new JButton("Add Grass" + " " + "x" + this.beach.numGrass);
-		addGrass.setSize(inventWidth, inventHeight);
-		addGrass.setLocation(0 + buttonWidth * 4, 640);
-*/
+		 * addGabion = new JButton("Add Gabion" + " " + "x" +
+		 * this.beach.numGabions); addGabion.setSize(inventWidth, inventHeight);
+		 * addGabion.setLocation(0, 640);
+		 * 
+		 * addWall = new JButton("Add Wall" + " " + "x" + this.beach.numWalls);
+		 * addWall.setSize(inventWidth, inventHeight); addWall.setLocation(0 +
+		 * buttonWidth * 2, 640);
+		 * 
+		 * addGrass = new JButton("Add Grass" + " " + "x" +
+		 * this.beach.numGrass); addGrass.setSize(inventWidth, inventHeight);
+		 * addGrass.setLocation(0 + buttonWidth * 4, 640);
+		 */
 		playerIcon = "Game Files/crab.png";
 		timer = "Game Files/timer.png";
 		inventory = "Game Files/Inventory.png";
@@ -108,20 +108,20 @@ public class BeachView extends BeachController {
 			BufferedImage icon;
 			BufferedImage clock;
 			BufferedImage slots;
-			BufferedImage[] waves;
+			BufferedImage[] waveImages;
 			BufferedImage Gabby;
 			BufferedImage Wally;
 			BufferedImage Gass;
-			BufferedImage[] boats;
+			BufferedImage[] boatImages;
 
-			boats = new BufferedImage[2];
-			for (int i = 0; i < boats.length; i++) {
-				boats[i] = ImageIO.read(new File(boatz[i]));
+			boatImages = new BufferedImage[2];
+			for (int i = 0; i < boatImages.length; i++) {
+				boatImages[i] = ImageIO.read(new File(boatz[i]));
 			}
 
-			waves = new BufferedImage[3];
-			for (int i = 0; i < waves.length; i++) {
-				waves[i] = ImageIO.read(new File(wavez[i]));
+			waveImages = new BufferedImage[3];
+			for (int i = 0; i < waveImages.length; i++) {
+				waveImages[i] = ImageIO.read(new File(wavez[i]));
 			}
 
 			BufferedImage background = ImageIO.read(new File("Game Files/Beach.png"));
@@ -135,52 +135,66 @@ public class BeachView extends BeachController {
 			Wally = ImageIO.read(new File(wall));
 			Gass = ImageIO.read(new File(grass));
 
-			
-
 			g.drawImage(icon, this.beach.player.getxCoord(), this.beach.player.getyCoord(), null);
 			g.drawImage(slots, 0, 654, null);
 
-
-			for (Wave w : this.beach.waves) { // different speeds will produce different wave sizes
-				if (w.getSpeed() == 1) {
-					g.drawImage(waves[2], this.beach.boat.xCoord, w.getyCoord() + 160, null);
+			for (Wave w : this.beach.waves) { // different speeds will produce
+												// different wave sizes
+				if (w.getSpeed() == 1 && this.beach.boat.getSpeed() < 0) {
+					w.waveType = "Large";
+					g.drawImage(waveImages[2], -this.beach.boat.xCoord, w.getyCoord() + 160, null);
+				}
+				
+				if (w.getSpeed() == 1 && this.beach.boat.getSpeed() > 0) {
+					w.waveType = "Large";
+					g.drawImage(waveImages[2], this.beach.boat.xCoord, w.getyCoord() + 160, null);
 				}
 
-				if (w.getSpeed() == 2) {
-					g.drawImage(waves[1], this.beach.boat.xCoord, w.getyCoord() + 160, null);
+				
+				if (w.getSpeed() == 2 && this.beach.boat.getSpeed() < 0) {
+					w.waveType = "Medium";
+					g.drawImage(waveImages[1], -this.beach.boat.xCoord, w.getyCoord() + 160, null);
+				}
+				
+				if (w.getSpeed() == 2 && this.beach.boat.getSpeed() > 0) {
+					w.waveType = "Medium";
+					g.drawImage(waveImages[1], this.beach.boat.xCoord, w.getyCoord() + 160, null);
 				}
 
-				if (w.getSpeed() == 3) {
-					g.drawImage(waves[0], this.beach.boat.xCoord, w.getyCoord() + 160, null);
+				if (w.getSpeed() == 3 && this.beach.boat.getSpeed() < 0) {
+					w.waveType = "Small";
+					g.drawImage(waveImages[0], -this.beach.boat.xCoord, w.getyCoord() + 160, null);
+				}
+				
+				if (w.getSpeed() == 3 && this.beach.boat.getSpeed() > 0) {
+					w.waveType = "Small";
+					g.drawImage(waveImages[0], this.beach.boat.xCoord, w.getyCoord() + 160, null);
 				}
 			}
-			
+
 			for (Boat b : this.beach.boats) {
 				if (b.getSpeed() > 0) {
-					g.drawImage(boats[0], b.getxCoord(), b.getyCoord(), null);
-					b.setWidth(boats[0].getWidth());
-					b.setHeight(boats[0].getHeight());
+					g.drawImage(boatImages[0], b.getxCoord(), b.getyCoord(), null);
+					b.setWidth(boatImages[0].getWidth());
+					b.setHeight(boatImages[0].getHeight());
 				}
 				if (b.getSpeed() < 0) {
-					g.drawImage(boats[1], b.getxCoord(), b.getyCoord(), null);
-					b.setWidth(boats[1].getWidth());
-					b.setHeight(boats[1].getHeight());
+					g.drawImage(boatImages[1], b.getxCoord(), b.getyCoord(), null);
+					b.setWidth(boatImages[1].getWidth());
+					b.setHeight(boatImages[1].getHeight());
 				}
 
 			}
-			
 
 			g.drawImage(clock, 975, 10, null);
 
 			backButton.paint(g);
-			//addGabion.paint(g);
-			//addWall.paint(g);
-			//addGrass.paint(g);
-			
-			
+			// addGabion.paint(g);
+			// addWall.paint(g);
+			// addGrass.paint(g);
+
 			// Adding images of beach fortifications
-			
-			
+
 			if (this.beach.addedGab) {
 				g.drawImage(Gabby, this.beach.gabion.xCoord, this.beach.gabion.yCoord, null);
 			}

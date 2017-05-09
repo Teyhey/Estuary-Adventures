@@ -13,14 +13,10 @@ public class BeachModel {
 	public Item gabion;
 	public Item wall;
 	public Item grass;
-	public Boat[] boats;
-	public Wave[] waves;
-	public ArrayList<Wave> ways;
+	public ArrayList<Boat> boats;
+	public ArrayList<Wave> waves;
 	public ArrayList<Item> barriers;
-	public ArrayList<Item> gabions;
-	public ArrayList<Item> walls;
-	public ArrayList<Item> grasses;
-
+	
 
 	public Wave wave;
 	public Boat boat;
@@ -46,8 +42,10 @@ public class BeachModel {
 		numGabions = 0;
 		numWalls = 0;
 		numGrass = 0;
-		createBoats();
-		createWaves();
+		waves = new ArrayList<Wave>();
+		boats = new ArrayList<Boat>();
+		barriers = new ArrayList<Item>();
+		createOcean();
 	}
 
 	public boolean placeGabion(){
@@ -80,27 +78,70 @@ public class BeachModel {
 		return addedGra;
 	}
 
-	public void createBoats(){
+	/*
+	public void createBoat(){
 		Random rand = new Random();
-		this.boats = new Boat[2];
-		int speeds[] = {-2, 2};
-		for (int i = 0; i < boats.length; i++){
-			int n = rand.nextInt(frameHeight - 400);
-			int s = rand.nextInt(1);
-			boats[i] = new Boat("Dirty Vessel", 5, speeds[s], n, (300 *i) + 100);
+		
+		int speedsBoat[] = {-2, 2};
+		int sBoat = rand.nextInt(1);
+		int yLoc = rand.nextInt(200);
+		int yAdd = rand.nextInt(90) + 75;
+		int location = rand.nextInt(2);
+		
+		boats.add(0, new Boat("Dirty Vessel", 5, speedsBoat[sBoat], frameWidth, (yLoc * location) + yAdd));
+	}
+	
+	*/
+	
+	public void createBarrier(){
+		if(addedGab){
+			barriers.add(gabion);
+		}
+		
+		if(addedWal){
+			barriers.add(wall);
+		}
+		
+		if(addedGra){
+			barriers.add(grass);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	public void createOcean(){
+		Random rand = new Random();
+		
+		//bs.add(new Boat("Boat", 5, -2, 1, (300 *1) + 100));
+		int boatNum = rand.nextInt(5) + 1;
+		int speedsBoat[] = {-2, 2};
+		int speedsWave[] = {1, 2, 3};
+		int possible[] = {-1, 1};
+		
+		for (int i = 0; i < boatNum; i++){
+			//int n = rand.nextInt(frameHeight - 400);
+			int sBoat = rand.nextInt(1);
+			int sWave = rand.nextInt(3);
+			int direct = rand.nextInt(2);
+			
+			int yLoc = rand.nextInt(300) + 30;
+			int yAdd = rand.nextInt(90) + 75;
+			
+			
+			
+			this.boats.add(i, new Boat("Dirty Vessel", 5, speedsBoat[sBoat] * possible[direct], frameWidth, yLoc + yAdd));
+			//this.boat.setxCoord(boats.get(i).getxCoord());
+			this.waves.add(new Wave(speedsWave[sWave], this.boat.getxCoord(), this.wave.getyCoord()));
+
 		}
 	}
 
-	public void createWaves(){
-		Random rand = new Random();
-		this.waves = new Wave[rand.nextInt(25) + 5];
-		int[] speeds = {1,2,3};
-		for (int i = 0; i < waves.length; i++){
-			int s = rand.nextInt(3);
-			waves[i] = new Wave("Small", 5, speeds[s], this.wave.getxCoord(), this.wave.getyCoord());
-		}
-		System.out.println(waves.length);
-	}
+
 	
 
 }
