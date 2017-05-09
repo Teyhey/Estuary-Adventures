@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -68,7 +69,7 @@ public class MazeView extends MazeController{
 	 * @return void.
 	 */
 	public MazeView(){
-		super(500);
+		super(500, 120);
 		backButton = new JButton ("Exit");
 		backButton.setSize(buttonWidth, buttonHeight);
 		backButton.setLocation(0, 0);
@@ -119,66 +120,81 @@ public class MazeView extends MazeController{
 
 			this.maze.player.setWidth(scaledIcon.getWidth());
 			this.maze.player.setHeight(scaledIcon.getHeight());
-
-			if (maze.getCurrDistance() < maze.getDistance()){
-				backButton.paint(g);
-				for (Obstacle o: this.maze.obstacles){
-					g.drawImage(obstack, o.xCoord, o.yCoord, null);
-				}
-				//g.drawImage(boost, maze.item.xCoord, maze.item.yCoord, null);
-				g.drawImage(scaledIcon, this.maze.player.getxCoord() , this.maze.player.getyCoord(), null);
-				g.drawImage(salt, 1150 , 475, null);
-				Color goal = new Color (255,255, 0, this.maze.getOpacity());
-				g.setColor(goal);
-				if (this.maze.getStart() == 1){
-					g.fillRect(frameWidth - rectWidth, 0, rectWidth, frameHeight);
-				}
-				if (this.maze.getStart() == 2){
-					g.fillRect(0, frameHeight - (rectHeight*2), frameWidth, rectHeight);
-				}
-				if (this.maze.getStart() == 3){
-					g.fillRect(0, 0, rectWidth/2, frameHeight);
-				}
-				if (this.maze.getStart() == 4){
-					g.fillRect(0, 0, frameWidth, rectHeight/2);
-				}
-				
-				Color health = new Color (255, 0, 0);
-				g.setColor(health);
-				g.fillRect(1000, 700, healthWidth,healthHeight);
-				
-				for (Enemy e: this.maze.enemy){
-					if (e.getDirection() == 0 && e.getSpeed() > 0){
-						g.drawImage(enemy[0], e.getxCoord(), e.getyCoord(), null);
-						e.setWidth(enemy[0].getWidth());
-						e.setHeight(enemy[0].getHeight());
-					}
-					if (e.getDirection() == 0 && e.getSpeed() < 0){
-						g.drawImage(enemy[1], e.getxCoord(), e.getyCoord(), null);
-						e.setWidth(enemy[1].getWidth());
-						e.setHeight(enemy[1].getHeight());
-					}
-					if (e.getDirection() == 1 && e.getSpeed() < 0){
-						g.drawImage(enemy[2], e.getxCoord(), e.getyCoord(), null);
-						e.setWidth(enemy[2].getWidth());
-						e.setHeight(enemy[2].getHeight());
-					}
-					if (e.getDirection() == 1 && e.getSpeed() > 0){
-						g.drawImage(enemy[3], e.getxCoord(), e.getyCoord(), null);
-						e.setWidth(enemy[3].getWidth());
-						e.setHeight(enemy[3].getHeight());
-					}
-
-				}
-				g.drawImage(clock, 975 , 10, null);
-			}
-			else {
+			
+			if (this.getTimeLeft() <= 0 || this.maze.player.health <= 0){
 				g.setFont(new Font("ComicSans", Font.PLAIN, 100));
-				g.drawString("YOU MADE IT TO THE", 100, 300);
-				g.drawString("ESTUARY", 375, 500);
+				g.drawString("REST IN PEACE", 100, 300);
+			} else {
+				if (maze.getCurrDistance() < maze.getDistance()){
+					backButton.paint(g);
+					for (Obstacle o: this.maze.obstacles){
+						g.drawImage(obstack, o.xCoord, o.yCoord, null);
+					}
+					//g.drawImage(boost, maze.item.xCoord, maze.item.yCoord, null);
+					g.drawImage(scaledIcon, this.maze.player.getxCoord() , this.maze.player.getyCoord(), null);
+					g.drawImage(salt, 1150 , 475, null);
+					Color goal = new Color (255,255, 0, this.maze.getOpacity());
+					g.setColor(goal);
+					if (this.maze.getStart() == 1){
+						g.fillRect(frameWidth - rectWidth, 0, rectWidth, frameHeight);
+					}
+					if (this.maze.getStart() == 2){
+						g.fillRect(0, frameHeight - (rectHeight*2), frameWidth, rectHeight);
+					}
+					if (this.maze.getStart() == 3){
+						g.fillRect(0, 0, rectWidth/2, frameHeight);
+					}
+					if (this.maze.getStart() == 4){
+						g.fillRect(0, 0, frameWidth, rectHeight/2);
+					}
+					
+					Color black = new Color (0, 0, 0);
+					g.setColor(black);
+					g.fillRect(995, 695, healthWidth + 10,healthHeight + 10);
+					Color health = new Color (255, 0, 0);
+					double healthScale = this.maze.player.health/500.000;
+					int scaledHealth = (int) (healthScale*healthWidth);
+					g.setColor(health);
+					g.fillRect(1000, 700, scaledHealth,healthHeight);
+					
+					for (Enemy e: this.maze.enemy){
+						if (e.getDirection() == 0 && e.getSpeed() > 0){
+							g.drawImage(enemy[0], e.getxCoord(), e.getyCoord(), null);
+							e.setWidth(enemy[0].getWidth());
+							e.setHeight(enemy[0].getHeight());
+						}
+						if (e.getDirection() == 0 && e.getSpeed() < 0){
+							g.drawImage(enemy[1], e.getxCoord(), e.getyCoord(), null);
+							e.setWidth(enemy[1].getWidth());
+							e.setHeight(enemy[1].getHeight());
+						}
+						if (e.getDirection() == 1 && e.getSpeed() < 0){
+							g.drawImage(enemy[2], e.getxCoord(), e.getyCoord(), null);
+							e.setWidth(enemy[2].getWidth());
+							e.setHeight(enemy[2].getHeight());
+						}
+						if (e.getDirection() == 1 && e.getSpeed() > 0){
+							g.drawImage(enemy[3], e.getxCoord(), e.getyCoord(), null);
+							e.setWidth(enemy[3].getWidth());
+							e.setHeight(enemy[3].getHeight());
+						}
+
+					}
+					g.drawImage(clock, 975 , 10, null);
+				}
+				else {
+					g.setFont(new Font("ComicSans", Font.PLAIN, 100));
+					g.drawString("YOU MADE IT TO THE", 100, 300);
+					g.drawString("ESTUARY", 375, 500);
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public AbstractButton getMazeButton() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

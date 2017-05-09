@@ -15,6 +15,8 @@ public class BeachModel {
 	public Item grass;
 	public Boat[] boats;
 	public Wave[] waves;
+	public ArrayList<Wave> ways;
+	public ArrayList<Item> barriers;
 	public ArrayList<Item> gabions;
 	public ArrayList<Item> walls;
 	public ArrayList<Item> grasses;
@@ -38,6 +40,9 @@ public class BeachModel {
 		boat = new Boat(0, 40);
 		wave = new Wave(50, 10);
 		oyster = new Item("Oyster", 1);
+		gabion = new Item("Gabion", 1);
+		wall = new Item("Wall", 1);
+		grass = new Item("Grass", 1);
 		numGabions = 0;
 		numWalls = 0;
 		numGrass = 0;

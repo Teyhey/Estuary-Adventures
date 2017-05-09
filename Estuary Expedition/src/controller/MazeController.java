@@ -32,21 +32,31 @@ public class MazeController implements KeyListener {
 	int time;
 	boolean hitRock = false;
 	boolean hitFish = false;
-
-
+	int timeLeft;
 	int collision;
+	long timer = System.currentTimeMillis();
 
-	public MazeController(int health) {
+	public MazeController(int health, int time) {
 		maze = new MazeModel(health);
 		this.xVel = 0;
 		this.yVel = 0;
-		time = 0;
 		this.collision = 10;
+		this.timeLeft = time;
+		long t = System.currentTimeMillis();
+		this.timer = t;
 	}
 
 	public void tick() {
 		move();
 		tickOpacity();
+		timeTick();
+	}
+	
+	private void timeTick(){
+		if (System.currentTimeMillis() - this.timer > 1000) {
+			this.timer += 1000;
+			this.timeLeft--;
+		}
 	}
 
 	public int getxVel() {
@@ -63,6 +73,22 @@ public class MazeController implements KeyListener {
 
 	public void setyVel(int yVel) {
 		this.yVel = yVel;
+	}
+
+	public int getTimeLeft() {
+		return timeLeft;
+	}
+
+	public void setTimeLeft(int timeLeft) {
+		this.timeLeft = timeLeft;
+	}
+
+	public long getTimer() {
+		return timer;
+	}
+
+	public void setTimer(long timer) {
+		this.timer = timer;
 	}
 
 	private void move(){

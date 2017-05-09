@@ -1,4 +1,4 @@
-package view; 
+package view;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 
 import controller.MazeController;
 import controller.MenuController;
+import model.MazeModel;
 import view.MenuView;
 import view.MazeView;
 import view.BeachView;
@@ -37,6 +38,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 
 public class GameView extends JPanel {
+
 	/**
 	 * This class handles the view components for everything.
 	 * 
@@ -47,7 +49,12 @@ public class GameView extends JPanel {
 	int frameWidth = 1280;
 	int frameHeight = 800;
 	String gameState;
-	Object currGame;
+	String rollState = "playing";
+	MazeView mazeView;
+	BeachView beachView;
+	CubeView cubeView;
+	MenuView menuView;
+
 	int time = 0;
 
 	static long timeLeft = 120;
@@ -59,10 +66,11 @@ public class GameView extends JPanel {
 	 * @return void.
 	 */
 	public GameView() {
+		menuView = new MenuView();
+		mazeView = null;
+		beachView = null;
+		cubeView = null;
 		gameState = "Menu";
-		currGame = new MenuView();
-
-
 	}
 
 	/**
@@ -94,28 +102,28 @@ public class GameView extends JPanel {
 			JFrame frame = new JFrame();
 			JLabel background = new JLabel(new ImageIcon(ImageIO.read(new File("Game Files/menu.jpg"))));
 
-			((MenuView) this.currGame).getMazeButton().addActionListener(new ActionListener() {
+			this.menuView.getMazeButton().addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					mazeView = new MazeView();
 					setGameState("Maze");
-					setCurrGame(new MazeView());
 					frame.getContentPane().removeAll();
 					mazePanel();
 				}
 			});
 
-			((MenuView) this.currGame).getBeachButton().addActionListener(new ActionListener() {
+			this.menuView.getBeachButton().addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					beachView = new BeachView();
 					setGameState("Beach");
-					setCurrGame(new BeachView());
 					frame.getContentPane().removeAll();
 					beachPanel();
 				}
 			});
 
-			((MenuView) this.currGame).getCubeButton().addActionListener(new ActionListener() {
+			this.menuView.getCubeButton().addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					cubeView = new CubeView();
 					setGameState("Cube");
-					setCurrGame(new CubeView());
 					frame.getContentPane().removeAll();
 					cubePanel();
 
@@ -123,9 +131,9 @@ public class GameView extends JPanel {
 			});
 
 			frame.setContentPane(background);
-			frame.add(((MenuView) this.currGame).getMazeButton());
-			frame.add(((MenuView) this.currGame).getBeachButton());
-			frame.add(((MenuView) this.currGame).getCubeButton());
+			frame.add(this.menuView.getMazeButton());
+			frame.add(this.menuView.getBeachButton());
+			frame.add(this.menuView.getCubeButton());
 
 			frame.getContentPane().add(this).setBackground(Color.gray);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -148,23 +156,22 @@ public class GameView extends JPanel {
 	public void mazePanel() {
 		JFrame frame = new JFrame();
 
-		((MazeView) this.currGame).getBackButton().addActionListener(new ActionListener() {
+		this.mazeView.getBackButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				menuView = new MenuView();
 				setGameState("Menu");
-				setCurrGame(new MenuView());
 				frame.getContentPane().removeAll();
 				menuPanel();
 			}
 		});
 
-
-		frame.add(((MazeView) this.currGame).getBackButton());
+		frame.add(this.mazeView.getBackButton());
 		frame.getContentPane().add(this).setBackground(Color.gray);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(this.frameWidth, this.frameHeight);
 		frame.setVisible(true);
 		frame.setFocusable(true);
-		frame.addKeyListener(((MazeView) this.currGame));
+		frame.addKeyListener(this.mazeView);
 		frame.repaint();
 		frame.revalidate();
 	}
@@ -177,53 +184,48 @@ public class GameView extends JPanel {
 	 */
 	public void beachPanel() {
 		JFrame frame = new JFrame();
-		((BeachView) this.currGame).getBackButton().addActionListener(new ActionListener() {
+		BeachView bv = new BeachView();
+		beachView = bv;
+		this.beachView.getBackButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				menuView = new MenuView();
 				setGameState("Menu");
-				setCurrGame(new MenuView());
-				//frame.getContentPane().removeAll();
+				// frame.getContentPane().removeAll();
 				frame.repaint();
 				menuPanel();
 			}
 		});
 
 		/*
-		((BeachView) this.currGame).getAddGabion().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				//((BeachView) this.currGame).beach.placeGabion();
-				frame.repaint();	
-			}
-		});
-
-		((BeachView) this.currGame).getAddWall().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//((BeachView) this.currGame).beach.placeWall();
-				frame.repaint();	
-			}
-		});
-
-		((BeachView) this.currGame).getAddGrass().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//((BeachView) this.currGame).beach.placeGrass();
-				frame.repaint();	
-			}
-		});
-		
-
-		
-		frame.add(((BeachView) this.currGame).getAddGabion());
-		frame.add(((BeachView) this.currGame).getAddWall());
-		frame.add(((BeachView) this.currGame).getAddGrass());
-		*/
-		frame.add(((BeachView) this.currGame).getBackButton());
+		 * ((BeachView) this.currGame).getAddGabion().addActionListener(new
+		 * ActionListener() { public void actionPerformed(ActionEvent e) {
+		 * 
+		 * //((BeachView) this.currGame).beach.placeGabion(); frame.repaint(); }
+		 * });
+		 * 
+		 * ((BeachView) this.currGame).getAddWall().addActionListener(new
+		 * ActionListener() { public void actionPerformed(ActionEvent e) {
+		 * //((BeachView) this.currGame).beach.placeWall(); frame.repaint(); }
+		 * });
+		 * 
+		 * ((BeachView) this.currGame).getAddGrass().addActionListener(new
+		 * ActionListener() { public void actionPerformed(ActionEvent e) {
+		 * //((BeachView) this.currGame).beach.placeGrass(); frame.repaint(); }
+		 * });
+		 * 
+		 * 
+		 * 
+		 * frame.add(((BeachView) this.currGame).getAddGabion());
+		 * frame.add(((BeachView) this.currGame).getAddWall());
+		 * frame.add(((BeachView) this.currGame).getAddGrass());
+		 */
+		frame.add(this.beachView.getBackButton());
 		frame.getContentPane().add(this).setBackground(Color.gray);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(this.frameWidth, this.frameHeight);
 		frame.setVisible(true);
 		frame.setFocusable(true);
-		frame.addKeyListener(((BeachView) this.currGame));
+		frame.addKeyListener(this.beachView);
 		frame.repaint();
 
 	}
@@ -236,55 +238,60 @@ public class GameView extends JPanel {
 	 */
 	public void cubePanel() {
 		JFrame frame = new JFrame();
-		((CubeView) this.currGame).getBackButton().addActionListener(new ActionListener() {
+		this.cubeView.getBackButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				menuView = new MenuView();
 				setGameState("Menu");
-				setCurrGame(new MenuView());
 				frame.getContentPane().removeAll();
 				menuPanel();
 			}
 		});
 
-		((CubeView) this.currGame).getRollDiceButton().addActionListener(new ActionListener() {
+		this.cubeView.getRollDiceButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				((CubeView) currGame).randomize();
-				currGame = ((CubeView) currGame);
-				frame.repaint();
-				
-			}
-		});
-		
-		((CubeView) this.currGame).getSubmitButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String story = ((CubeView) currGame).userStory.getText();
-				((CubeView) currGame).userStory.setText("Your Story Has Been Submitted");
-				JOptionPane.showMessageDialog(frame, story, "Your Estuary Story:", JOptionPane.INFORMATION_MESSAGE);
-				
-				
-				frame.repaint();
-			}
-		});
-		
 
-		frame.add(((CubeView) this.currGame).getBackButton());
-		frame.add(((CubeView) this.currGame).getRollDiceButton());
-		frame.add(((CubeView) this.currGame).getSubmitButton());
-		frame.add(((CubeView) this.currGame).getStory());
-		frame.add(((CubeView) this.currGame).holder);
+				rollState = "rolling";
+				cubeView.randomize(); // idk?
+				rollState = "playing";
+
+			}
+		});
+
+		this.cubeView.getSubmitButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String story = cubeView.userStory.getText();
+				cubeView.userStory.setText("Your Story Has Been Submitted");
+				JOptionPane.showMessageDialog(frame, story, "Your Estuary Story:", JOptionPane.INFORMATION_MESSAGE);
+
+				frame.repaint();
+			}
+		});
+
+
+
+			frame.add(this.cubeView.getBackButton());
+			frame.add(this.cubeView.getRollDiceButton());
+			frame.add(this.cubeView.getSubmitButton());
+			frame.add(this.cubeView.getStory());
+			//frame.add(this.cubeView.getDie1());
+			//frame.add(this.cubeView.getDie2());
+			//frame.add(this.cubeView.getDie3());
+			//frame.add(this.cubeView.getDie4());
+			frame.add(this.cubeView.holder);
+	
+
+
 
 		frame.getContentPane().add(this).setBackground(Color.gray);
-
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(this.frameWidth, this.frameHeight);
 		frame.setVisible(true);
-		//frame.repaint();
+		// frame.repaint();
 		frame.setFocusable(true);
-		frame.addKeyListener(((CubeView) this.currGame));
+		frame.addKeyListener(this.cubeView);
 		frame.repaint();
 		frame.revalidate();
-	
-		
+
 	}
 
 	/**
@@ -299,16 +306,16 @@ public class GameView extends JPanel {
 		super.paintComponent(g);
 
 		if (gameState == "Maze") {
-			((MazeView) currGame).draw(g);
-			Color c = new Color (0, 0, 0);
+			this.mazeView.draw(g);
+			Color c = new Color(0, 0, 0);
 			g.setColor(c);
-			if (((MazeView) currGame).maze.getCurrDistance() != ((MazeView) currGame).maze.getDistance()){
-				if (timeLeft % 60 < 10) {
-					String countDown = timeLeft / 60 + ":" + "0" + timeLeft % 60;
+			if (this.mazeView.maze.getCurrDistance() != this.mazeView.maze.getDistance() && this.mazeView.maze.player.health >=0) {
+				if (this.mazeView.getTimeLeft() % 60 < 10) {
+					String countDown = this.mazeView.getTimeLeft() / 60 + ":" + "0" + this.mazeView.getTimeLeft() % 60;
 					g.setFont(new Font("ComicSans", Font.PLAIN, 40));
 					g.drawString(countDown, 1100, 75);
 				} else {
-					String countDown = timeLeft / 60 + ":" + timeLeft % 60;
+					String countDown = this.mazeView.getTimeLeft() / 60 + ":" + this.mazeView.getTimeLeft() % 60;
 					g.setFont(new Font("ComicSans", Font.PLAIN, 40));
 					g.drawString(countDown, 1100, 75);
 				}
@@ -316,7 +323,7 @@ public class GameView extends JPanel {
 		}
 
 		if (gameState == "Beach") {
-			((BeachView) currGame).draw(g);
+			this.beachView.draw(g);
 			if (timeLeft % 60 < 10) {
 				String countDown = timeLeft / 60 + ":" + "0" + timeLeft % 60;
 				g.setFont(new Font("ComicSans", Font.PLAIN, 40));
@@ -328,20 +335,19 @@ public class GameView extends JPanel {
 			}
 		}
 
-
 		if (gameState == "Cube") {
-			((CubeView) currGame).draw(g);
+			this.cubeView.draw(g);
 		}
-		
+
 	}
 
 	public void tick() {
 		if (gameState == "Maze") {
-			((MazeView) currGame).tick();
+			this.mazeView.tick();
 		}
 
 		if (gameState == "Beach") {
-			((BeachView) currGame).tick();
+			this.beachView.tick();
 		}
 
 		if (gameState == "Cube") {
@@ -357,18 +363,10 @@ public class GameView extends JPanel {
 		this.gameState = gameState;
 	}
 
-	public Object getCurrGame() {
-		return currGame;
-	}
-
-	public void setCurrGame(Object currGame) {
-		this.currGame = currGame;
-	}
-
 	public static void main(String args[]) {
 		GameView game = new GameView();
 
-		//game.setDoubleBuffered(true);
+		// game.setDoubleBuffered(true);
 
 		game.makePanel();
 
@@ -387,13 +385,6 @@ public class GameView extends JPanel {
 				delta--;
 			}
 			game.repaint();
-
-			if (game.gameState == "Maze") {
-				if (System.currentTimeMillis() - timer > 1000) {
-					timer += 1000;
-					timeLeft--;
-				}
-			}
 			if (game.gameState == "Beach") {
 
 				if (System.currentTimeMillis() - timer > 1000) {

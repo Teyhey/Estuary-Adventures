@@ -58,7 +58,7 @@ public class BeachController implements KeyListener {
 		checkXCollisionLeft(beach.player, beach.wave);
 		checkYCollisionUp(beach.player, beach.wave);
 		checkYCollisionDown(beach.player, beach.wave);
-		//checkVerticalHit(beach.wave, beach.gabion);
+		checkVerticalHit(beach.wave, beach.gabion);
 		//checkVerticalHit(beach.wave, beach.wall);
 		//checkVerticalHit(beach.wave, beach.grass);
 	}
@@ -183,7 +183,7 @@ public class BeachController implements KeyListener {
 	}
 	
 	private void checkVerticalHit(Wave w, Item i){
-		if (waveHitGabion(w)){
+		if (waveHitGabion()){
 			if (i.xCoord + i.width/2 >= w.xCoord + w.width/2){
 				i.xCoord = w.xCoord + i.width + (collision*2);
 			}
@@ -212,13 +212,15 @@ public class BeachController implements KeyListener {
 		}
 	}
 
-	public boolean waveHitGabion(Wave w) {
+	public boolean waveHitGabion() {
 		hitBarrier = false;
-		Rectangle barrierz = new Rectangle(beach.gabion.xCoord, beach.gabion.yCoord, beach.gabion.xCoord, beach.gabion.yCoord);
-		Rectangle wavez = new Rectangle(w.xCoord, w.yCoord, w.width - collision, w.height - collision);
-		if (barrierz.intersects(wavez)) {
+		Rectangle barrierz = new Rectangle(beach.gabion.xCoord, beach.gabion.yCoord, 100, 100);
+		Rectangle wavez = new Rectangle(beach.wave.xCoord, beach.wave.yCoord, 100, 100);
+		if (wavez.intersects(barrierz)) {
 			hitBarrier = true;
+			System.out.println(true);
 		}
+		
 		return hitBarrier;
 	}
 
