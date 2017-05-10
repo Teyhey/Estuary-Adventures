@@ -8,26 +8,36 @@ public class BeachModel {
 	int frameWidth = 1280;
 	int frameHeight = 800;
 	public Player player;
-
-	public Item oyster;
+	public Wave wave;
+	public Boat boat;
+	
 	public Item gabion;
 	public Item wall;
 	public Item grass;
+	public Item seed;
+	public Item block;
+	public Item oyster;
+	
 	public ArrayList<Boat> boats;
 	public ArrayList<Wave> waves;
 	public ArrayList<Item> barriers;
-	
+	public ArrayList<Item> currency;
 
-	public Wave wave;
-	public Boat boat;
 	public int numGabions;
 	public int numWalls;
 	public int numGrass;
 	public int beachHealth;
 	int health = 100;
+	int numSeeds;
+	int numBlocks;
+	int numOysters;
+	
 	public boolean addedGab = false;
 	public boolean addedWal = false;
 	public boolean addedGra = false;
+	public boolean spawnSeeds = false;
+	public boolean spawnBlocks = false;
+	public boolean spawnOysters = false;
 
 
 
@@ -39,44 +49,83 @@ public class BeachModel {
 		gabion = new Item("Gabion", 1);
 		wall = new Item("Wall", 1);
 		grass = new Item("Grass", 1);
+		block = new Item("Block", 1);
+		seed = new Item("Seed", 1);
+		oyster = new Item("Oyster", 1);
+		
 		numGabions = 0;
 		numWalls = 0;
 		numGrass = 0;
+		numSeeds = 0;
+		numOysters = 0;
+		numBlocks = 0;
+		
+		
 		waves = new ArrayList<Wave>();
 		boats = new ArrayList<Boat>();
 		barriers = new ArrayList<Item>();
+		currency = new ArrayList<Item>();
+		
 		createOcean();
 	}
 
-	public boolean placeGabion(){
+	public void placeGabion(){
 		this.gabion = new Item("Gabion", 1);
 		this.gabion.xCoord = this.player.getxCoord();
 		this.gabion.yCoord = this.player.getyCoord();
-		//this.gabions.add(this.gabion);
-		this.numGabions++;
 		addedGab = true;
-		return addedGab;
 	}
 
-	public boolean placeWall(){
+	public void placeWall(){
 		this.wall = new Item("Wall", 1);
 		this.wall.xCoord = this.player.xCoord;
 		this.wall.yCoord = this.player.yCoord;
-		//this.walls.add(this.gabion);
-		this.numWalls++;
 		addedWal = true;
-		return addedWal;
 	}
 
-	public boolean placeGrass(){
-		this.grass = new Item("Gabion", 1);
+	public void placeGrass(){
+		this.grass = new Item("Grass", 1);
 		this.grass.xCoord = this.player.xCoord;
 		this.grass.yCoord = this.player.yCoord - 35;
-	//	this.grasses.add(this.gabion);
-		this.numGrass++;
 		addedGra = true;
-		return addedGra;
 	}
+	
+	public void spawnOysters(){
+		Random rand = new Random();
+		int y = rand.nextInt(1000) + 500;
+		int x = rand.nextInt(frameWidth) + 0;
+		
+		
+		this.oyster = new Item("Oyster", 1);
+		this.oyster.xCoord = x;
+		this.oyster.yCoord = y;
+		spawnOysters = true;
+	}
+	
+	public void spawnBlocks(){
+		Random rand = new Random();
+		int y = rand.nextInt(1000) + 500;
+		int x = rand.nextInt(frameWidth) + 0;
+		
+		
+		this.oyster = new Item("Block", 1);
+		this.oyster.xCoord = x;
+		this.oyster.yCoord = y;
+		spawnOysters = true;
+	}
+	
+	public void spawnSeeds(){
+		Random rand = new Random();
+		int y = rand.nextInt(1000) + 500;
+		int x = rand.nextInt(frameWidth) + 0;
+		
+		
+		this.oyster = new Item("Seed", 1);
+		this.oyster.xCoord = x;
+		this.oyster.yCoord = y;
+		spawnOysters = true;
+	}
+	
 
 	/*
 	public void createBoat(){
@@ -96,19 +145,34 @@ public class BeachModel {
 	public void createBarrier(){
 		if(addedGab){
 			barriers.add(gabion);
+			numGabions++;
 		}
 		
 		if(addedWal){
 			barriers.add(wall);
+			numWalls++;
 		}
 		
 		if(addedGra){
 			barriers.add(grass);
+			numGrass++;
 		}
 	}
 	
 	
-	
+	public void createCurrency(){
+		if(spawnOysters){
+			currency.add(oyster);
+		}
+		
+		if(spawnSeeds){
+			currency.add(seed);
+		}
+		
+		if(spawnBlocks){
+			currency.add(block);
+		}
+	}
 	
 	
 	

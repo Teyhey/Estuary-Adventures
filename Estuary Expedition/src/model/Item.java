@@ -3,7 +3,7 @@ package model;
 
 public class Item {
 
-	String itemType;
+	public String itemType;
 	int quantity;
 	public int xCoord = 400;
 	public int yCoord = 200;

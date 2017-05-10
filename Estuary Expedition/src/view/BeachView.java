@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 import controller.BeachController;
 import model.Boat;
 import model.Enemy;
+import model.Item;
 import model.Wave;
 
 public class BeachView extends BeachController {
@@ -41,6 +42,10 @@ public class BeachView extends BeachController {
 	String gabion;
 	String wall;
 	String grass;
+	String oyst;
+	String bloc;
+	String sed;
+	
 	String[] boatz = { "Game Files/dirtyvesselRight.png", "Game Files/dirtyvesselLeft.png" };
 	String[] wavez = { "Game Files/splashSMALL.png", "Game Files/splashMED.png", "Game Files/splashBIG.png", };
 
@@ -144,18 +149,17 @@ public class BeachView extends BeachController {
 					w.waveType = "Large";
 					g.drawImage(waveImages[2], -this.beach.boat.xCoord, w.getyCoord() + 160, null);
 				}
-				
+
 				if (w.getSpeed() == 1 && this.beach.boat.getSpeed() > 0) {
 					w.waveType = "Large";
 					g.drawImage(waveImages[2], this.beach.boat.xCoord, w.getyCoord() + 160, null);
 				}
 
-				
 				if (w.getSpeed() == 2 && this.beach.boat.getSpeed() < 0) {
 					w.waveType = "Medium";
 					g.drawImage(waveImages[1], -this.beach.boat.xCoord, w.getyCoord() + 160, null);
 				}
-				
+
 				if (w.getSpeed() == 2 && this.beach.boat.getSpeed() > 0) {
 					w.waveType = "Medium";
 					g.drawImage(waveImages[1], this.beach.boat.xCoord, w.getyCoord() + 160, null);
@@ -165,7 +169,7 @@ public class BeachView extends BeachController {
 					w.waveType = "Small";
 					g.drawImage(waveImages[0], -this.beach.boat.xCoord, w.getyCoord() + 160, null);
 				}
-				
+
 				if (w.getSpeed() == 3 && this.beach.boat.getSpeed() > 0) {
 					w.waveType = "Small";
 					g.drawImage(waveImages[0], this.beach.boat.xCoord, w.getyCoord() + 160, null);
@@ -188,23 +192,26 @@ public class BeachView extends BeachController {
 
 			g.drawImage(clock, 975, 10, null);
 
-			backButton.paint(g);
+			// backButton.paint(g);
 			// addGabion.paint(g);
 			// addWall.paint(g);
 			// addGrass.paint(g);
 
 			// Adding images of beach fortifications
 
-			if (this.beach.addedGab) {
-				g.drawImage(Gabby, this.beach.gabion.xCoord, this.beach.gabion.yCoord, null);
+			for (Item gab : this.beach.barriers) {
+				if (gab.itemType.equals("Gabion"))
+					g.drawImage(Gabby, gab.xCoord, gab.yCoord, null);
 			}
 
-			if (this.beach.addedWal) {
-				g.drawImage(Wally, this.beach.wall.xCoord, this.beach.wall.yCoord, null);
+			for (Item wall : this.beach.barriers) {
+				if (wall.itemType.equals("Wall"))
+					g.drawImage(Wally, wall.xCoord, wall.yCoord, null);
 			}
 
-			if (this.beach.addedGra) {
-				g.drawImage(Gass, this.beach.grass.xCoord, this.beach.grass.yCoord, null);
+			for (Item grass : this.beach.barriers) {
+				if (grass.itemType.equals("Grass"))
+					g.drawImage(Gass, grass.xCoord, grass.yCoord, null);
 			}
 
 		} catch (IOException e) {
