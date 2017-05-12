@@ -4,16 +4,10 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JPanel;
-
 import model.BeachModel;
 import model.Boat;
 import model.Character;
-import model.Enemy;
 import model.Item;
-import model.MazeModel;
-import model.Obstacle;
-import model.Player;
 import model.Wave;
 
 public class BeachController implements KeyListener {
@@ -41,6 +35,7 @@ public class BeachController implements KeyListener {
 		move();
 		boatMove(beach.boat);
 		waveMove(beach.wave);
+		beach.createCurrency(beach.spawnCurrency());
 	}
 
 	private void move() {
@@ -59,8 +54,8 @@ public class BeachController implements KeyListener {
 		checkYCollisionUp(beach.player, beach.wave);
 		checkYCollisionDown(beach.player, beach.wave);
 		checkVerticalHit(beach.wave, beach.gabion);
-		//checkVerticalHit(beach.wave, beach.wall);
-		//checkVerticalHit(beach.wave, beach.grass);
+		// checkVerticalHit(beach.wave, beach.wall);
+		// checkVerticalHit(beach.wave, beach.grass);
 	}
 
 	private void checkBorders(Character c) {
@@ -158,13 +153,13 @@ public class BeachController implements KeyListener {
 		if (e.xCoord <= -1) {
 			e.xCoord = 0;
 			e.setSpeed(e.getSpeed() * -1);
-			//this.beach.createOcean();
-			
+			// this.beach.createOcean();
+
 		} else {
 			if (e.xCoord >= frameWidth - e.width + 1) {
 				e.xCoord = frameWidth - e.width;
 				e.setSpeed(e.getSpeed() * -1);
-				//this.beach.createOcean();
+				// this.beach.createOcean();
 			} else {
 				e.xCoord += e.getSpeed();
 			}
@@ -184,32 +179,29 @@ public class BeachController implements KeyListener {
 			}
 		}
 	}
-	
-	private void checkVerticalHit(Wave w, Item i){
-		if (waveHitGabion()){
-			if (i.xCoord + i.width/2 >= w.xCoord + w.width/2){
-				i.xCoord = w.xCoord + i.width + (collision*2);
-			}
-			else {
-				i.xCoord = w.xCoord - i.width - (collision*2);
-			}
-			i.health -= w.getDamage();
-		}
-		if (waveHitWall(w)){
-			if (i.xCoord + i.width/2 >= w.xCoord + w.width/2){
-				i.xCoord = w.xCoord + i.width + (collision*2);
-			}
-			else {
-				i.xCoord = w.xCoord - i.width - (collision*2);
+
+	private void checkVerticalHit(Wave w, Item i) {
+		if (waveHitGabion()) {
+			if (i.xCoord + i.width / 2 >= w.xCoord + w.width / 2) {
+				i.xCoord = w.xCoord + i.width + (collision * 2);
+			} else {
+				i.xCoord = w.xCoord - i.width - (collision * 2);
 			}
 			i.health -= w.getDamage();
 		}
-		if (waveHitGrass(w)){
-			if (i.xCoord + i.width/2 >= w.xCoord + w.width/2){
-				i.xCoord = w.xCoord + i.width + (collision*2);
+		if (waveHitWall(w)) {
+			if (i.xCoord + i.width / 2 >= w.xCoord + w.width / 2) {
+				i.xCoord = w.xCoord + i.width + (collision * 2);
+			} else {
+				i.xCoord = w.xCoord - i.width - (collision * 2);
 			}
-			else {
-				i.xCoord = w.xCoord - i.width - (collision*2);
+			i.health -= w.getDamage();
+		}
+		if (waveHitGrass(w)) {
+			if (i.xCoord + i.width / 2 >= w.xCoord + w.width / 2) {
+				i.xCoord = w.xCoord + i.width + (collision * 2);
+			} else {
+				i.xCoord = w.xCoord - i.width - (collision * 2);
 			}
 			i.health -= w.getDamage();
 		}
@@ -223,7 +215,7 @@ public class BeachController implements KeyListener {
 			hitBarrier = true;
 			System.out.println(true);
 		}
-		
+
 		return hitBarrier;
 	}
 
@@ -239,7 +231,8 @@ public class BeachController implements KeyListener {
 
 	public boolean waveHitGrass(Wave w) {
 		hitBarrier = false;
-		Rectangle barrierz = new Rectangle(beach.grass.xCoord, beach.grass.yCoord, beach.grass.xCoord, beach.grass.yCoord);
+		Rectangle barrierz = new Rectangle(beach.grass.xCoord, beach.grass.yCoord, beach.grass.xCoord,
+				beach.grass.yCoord);
 		Rectangle wavez = new Rectangle(w.xCoord, w.yCoord, w.width - collision, w.height - collision);
 		if (barrierz.intersects(wavez)) {
 			hitBarrier = true;
@@ -258,14 +251,11 @@ public class BeachController implements KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			setyVel(5);
 		} else if (e.getKeyCode() == KeyEvent.VK_1) {
-			beach.placeGabion();
-			beach.createBarrier();
+			beach.createBarrier("Gabion");
 		} else if (e.getKeyCode() == KeyEvent.VK_2) {
-			beach.placeWall();
-			beach.createBarrier();
+			beach.createBarrier("Wall");
 		} else if (e.getKeyCode() == KeyEvent.VK_3) {
-			beach.placeGrass();
-			beach.createBarrier();
+			beach.createBarrier("Grass");
 		}
 	}
 
