@@ -1,90 +1,53 @@
 package view;
 
-import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-public class MenuView extends JPanel {
-	int buttonWidth = 200;
-	int buttonHeight = 200;
-	int frameWidth = 1280;
-	int frameHeight = 800;
+import model.MenuModel;
 
-	JButton mazeButton;
-	JButton beachButton;
-	JButton cubeButton;
-	ImageIcon maze;
-	ImageIcon beach;
-	ImageIcon cube;
+public class MenuView extends MenuModel {
+	
+	int bgWidth;
+	int bgHeight;
+	
+	BufferedImage maze;
+	BufferedImage beach;
+	BufferedImage cube;
+	BufferedImage background;
 
 	public MenuView() {
+		super();
 		try {
-
-			maze = new ImageIcon(ImageIO.read(new File("Game Files/MazeButton.png")));
-			beach = new ImageIcon(ImageIO.read(new File("Game Files/Beach Barriers Button.jpg")));
-			cube = new ImageIcon(ImageIO.read(new File("Game Files/Die Game Button.jpg")));
-
-			mazeButton = new JButton(maze);
-			beachButton = new JButton(beach);
-			cubeButton = new JButton(cube);
-
-			JButton[] buttons = { mazeButton, beachButton, cubeButton };
-			for (int i = 0; i < 3; i++) {
-				buttons[i].setSize(buttonWidth, buttonHeight);
-			}
-			mazeButton.setLocation((frameWidth / 2 - buttonWidth / 2) - buttonWidth * 2,
-					(frameHeight / 2 - buttonHeight / 2));
-			beachButton.setLocation((frameWidth / 2 - buttonWidth / 2), (frameHeight / 2 - buttonHeight / 2));
-			cubeButton.setLocation((frameWidth / 2 - buttonWidth / 2) + buttonWidth * 2,
-					(frameHeight / 2 - buttonHeight / 2));
+			background = ImageIO.read(new File("Game Files/menu.png"));
+			this.bgWidth = background.getWidth();
+			this.bgHeight = background.getHeight();
+			maze = ImageIO.read(new File("Game Files/MazeButton.png"));
+			beach = ImageIO.read(new File("Game Files/Beach Barriers Button.jpg"));
+			cube = ImageIO.read(new File("Game Files/Die Game Button.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public void draw(Graphics g){
+		double scaleX = (double) frameWidth/bgWidth;
+		double scaleY = (double) frameHeight/bgHeight;
 
-	public int getButtonWidth() {
-		return buttonWidth;
-	}
-
-	public void setButtonWidth(int buttonWidth) {
-		this.buttonWidth = buttonWidth;
-	}
-
-	public int getButtonHeight() {
-		return buttonHeight;
-	}
-
-	public void setButtonHeight(int buttonHeight) {
-		this.buttonHeight = buttonHeight;
-	}
-
-	public JButton getMazeButton() {
-		return mazeButton;
-	}
-
-	public void setMazeButton(JButton mazeButton) {
-		this.mazeButton = mazeButton;
-	}
-
-	public JButton getBeachButton() {
-		return beachButton;
-	}
-
-	public void setBeachButton(JButton beachButton) {
-		this.beachButton = beachButton;
-	}
-
-	public JButton getCubeButton() {
-		return cubeButton;
-	}
-
-	public void setCubeButton(JButton cubeButton) {
-		this.cubeButton = cubeButton;
+		int scaledWidth =  (int) (bgWidth*scaleX);
+		int scaledHeight = (int) (bgHeight*scaleY);
+		BufferedImage scaledBG = new BufferedImage(scaledWidth, scaledHeight, background.getType());
+		
+		Graphics2D g2d = scaledBG.createGraphics();
+		g2d.drawImage(background, 0, 0, scaledWidth, scaledHeight, null);
+		g2d.dispose();
+		g.drawImage(scaledBG, 0, 0, null);
+		g.drawImage(maze, mazeButtonX, mazeButtonY, null);
+		g.drawImage(beach, beachButtonX, beachButtonY, null);
+		g.drawImage(cube, cubeButtonX, cubeButtonY, null);
 	}
 }

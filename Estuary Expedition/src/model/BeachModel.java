@@ -151,7 +151,7 @@ public class BeachModel {
 		int speedsWave[] = { 1, 2, 3 };
 		int possible[] = { -1, 1 };
 
-		for (int i = 0; i < boatNum; i++) {
+		for (int i = 0; i < 5; i++) {
 			// int n = rand.nextInt(frameHeight - 400);
 			int sBoat = rand.nextInt(1);
 			int sWave = rand.nextInt(3);

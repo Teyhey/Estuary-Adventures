@@ -1,35 +1,25 @@
 package controller;
 
-import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.JPanel;
 
-import model.Character;
 import model.Enemy;
 import model.MazeModel;
 import model.Obstacle;
 import model.Player;
-import view.MazeView;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
-public class MazeController implements KeyListener {
+public class MazeController extends MazeModel implements KeyListener{
 
 	public int xVel;
 	public int yVel;
 	public MazeModel maze;
-	int frameWidth = 1280;
-	int frameHeight = 800;
 	int padding = 100;
 	int time;
+	int vel;
+	protected double maxHealth = 500.000; 
 	boolean hitRock = false;
 	boolean hitFish = false;
 	int timeLeft;
@@ -37,11 +27,13 @@ public class MazeController implements KeyListener {
 	long timer = System.currentTimeMillis();
 
 	public MazeController(int health, int time) {
-		maze = new MazeModel(health);
+		super(true, 500);
+		maze = new MazeModel(true, health);
 		this.xVel = 0;
 		this.yVel = 0;
 		this.collision = 10;
 		this.timeLeft = time;
+		this.vel = 5;
 		long t = System.currentTimeMillis();
 		this.timer = t;
 	}
@@ -49,9 +41,10 @@ public class MazeController implements KeyListener {
 	public void tick() {
 		move();
 		tickOpacity();
+		tickHealthOpacity();
 		timeTick();
 	}
-	
+
 	private void timeTick(){
 		if (System.currentTimeMillis() - this.timer > 1000) {
 			this.timer += 1000;
@@ -91,6 +84,16 @@ public class MazeController implements KeyListener {
 		this.timer = timer;
 	}
 
+	public int getVel() {
+		return vel;
+	}
+
+	public void setVel(int vel) {
+		this.vel = vel;
+	}
+
+
+
 	private void move(){
 		checkProgression(maze.player);
 		for (Enemy e: maze.enemy){
@@ -106,36 +109,46 @@ public class MazeController implements KeyListener {
 	}
 
 	private void tickOpacity(){
-		maze.setOpacity(maze.getOpacity() + maze.getOpacityTick());
-		if (maze.getOpacity() <= 10){
-			maze.setOpacityTick(maze.getOpacityTick() * -1);
+		opacity += opacityTick;
+		if (opacity <= 10){
+			opacityTick *= -1;
 		}
-		if (maze.getOpacity() >= 250){
-			maze.setOpacityTick(maze.getOpacityTick() * -1);
+		if (opacity >= 250){
+			opacityTick *= -1;
+		}
+	}
+
+	private void tickHealthOpacity(){
+		if (maze.player.health <= maxHealth/4){
+			healthOpacity += healthOpacityTick;
+			if (healthOpacity <= 10){
+				healthOpacityTick *= -1;
+			}
+			if (healthOpacity >= 250){
+				healthOpacityTick *= -1;
+			}
+		}
+	}
+
+	private void checkProgression(Player p){
+		if (this.maze.getStart() == 1 && p.xCoord >= frameWidth - p.width + 1){
+			progress(p);
+		}
+		if (this.maze.getStart() == 2 && p.yCoord >= frameHeight - p.height + 1){
+			progress(p);
+		}
+		if (this.maze.getStart() == 3 && p.xCoord <= -1){
+			progress(p);
+		}
+		if (this.maze.getStart() == 4 && p.yCoord <= -1){
+			progress(p);
 		}
 	}
 	
-	private void checkProgression(Player p){
-		if (this.maze.getStart() == 1 && p.xCoord >= frameWidth - p.width + 1){
-			int counter = this.maze.getCurrDistance();
-			this.maze = new MazeModel(p.getHealth());
-			this.maze.setCurrDistance(counter + 1);
-		}
-		if (this.maze.getStart() == 2 && p.yCoord >= frameHeight - p.height + 1){
-			int counter = this.maze.getCurrDistance();
-			this.maze = new MazeModel(p.getHealth());
-			this.maze.setCurrDistance(counter + 1);
-		}
-		if (this.maze.getStart() == 3 && p.xCoord <= -1){
-			int counter = this.maze.getCurrDistance();
-			this.maze = new MazeModel(p.getHealth());
-			this.maze.setCurrDistance(counter + 1);
-		}
-		if (this.maze.getStart() == 4 && p.yCoord <= -1){
-			int counter = this.maze.getCurrDistance();
-			this.maze = new MazeModel(p.getHealth());
-			this.maze.setCurrDistance(counter + 1);
-		}
+	private void progress(Player p){
+		int counter = this.maze.getCurrDistance();
+		this.maze = new MazeModel(this.maze.isTutorial(), p.getHealth());
+		this.maze.setCurrDistance(counter + 1);
 	}
 
 	private void checkBorders(Player p) {
@@ -298,13 +311,13 @@ public class MazeController implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			setxVel(1);
+			setxVel(this.vel);
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			setxVel(-1);
+			setxVel(-this.vel);
 		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-			setyVel(-1);
+			setyVel(-this.vel);
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			setyVel(1);
+			setyVel(this.vel);
 		}
 	}
 

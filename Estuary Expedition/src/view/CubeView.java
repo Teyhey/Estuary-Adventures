@@ -83,6 +83,8 @@ public class CubeView extends CubeController {
 		backButton.setSize(buttonWidth, buttonHeight);
 		backButton.setLocation(0, 0);
 		
+		
+		
 		rollDice = new JButton("Roll Dice");
 		rollDice.setSize(100, 50);
 		rollDice.setLocation(100, 400);

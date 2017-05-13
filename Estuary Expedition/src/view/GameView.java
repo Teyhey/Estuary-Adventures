@@ -1,41 +1,15 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Timer;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.awt.Toolkit;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.MazeController;
-import controller.MenuController;
-import model.MazeModel;
-import view.MenuView;
-import view.MazeView;
-import view.BeachView;
-import view.CubeView;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButtonMenuItem;
+import controller.GameController;
 
 public class GameView extends JPanel {
 
@@ -46,15 +20,14 @@ public class GameView extends JPanel {
 	 * @author John Tejeda, Tyler Hill, Stephen Lu, Devarshi Patel
 	 * @version BETA
 	 */
-	int frameWidth = 1280;
-	int frameHeight = 800;
-	String gameState;
-	String rollState = "playing";
-	MazeView mazeView;
-	BeachView beachView;
-	CubeView cubeView;
-	MenuView menuView;
+	int frameWidth;
+	int frameHeight;
 
+	String rollState = "playing";
+	GameController controller;
+
+	int timeOffsetX = 180;
+	int timeOffsetY = 75;
 	int time = 0;
 
 	static long timeLeft = 120;
@@ -66,11 +39,10 @@ public class GameView extends JPanel {
 	 * @return void.
 	 */
 	public GameView() {
-		menuView = new MenuView();
-		mazeView = null;
-		beachView = null;
-		cubeView = null;
-		gameState = "Menu";
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		frameWidth = (int) screenSize.getWidth();
+		frameHeight = (int) screenSize.getHeight();
+		this.controller = new GameController();
 	}
 
 	/**
@@ -79,17 +51,6 @@ public class GameView extends JPanel {
 	 * @param none.
 	 * @return void.
 	 */
-	public void makePanel() {
-		if (this.gameState.equals("Menu")) {
-			this.menuPanel();
-		} else if (this.gameState.equals("Maze")) {
-			this.mazePanel();
-		} else if (this.gameState.equals("Beach")) {
-			this.beachPanel();
-		} else {
-			this.cubePanel();
-		}
-	}
 
 	/**
 	 * This method is responsible for making the Main Menu Panel.
@@ -98,90 +59,36 @@ public class GameView extends JPanel {
 	 * @return void.
 	 */
 	public void menuPanel() {
-		try {
-			JFrame frame = new JFrame();
-			JLabel background = new JLabel(new ImageIcon(ImageIO.read(new File("Game Files/menu.jpg"))));
-
-			this.menuView.getMazeButton().addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					mazeView = new MazeView();
-					setGameState("Maze");
-					frame.getContentPane().removeAll();
-					mazePanel();
-				}
-			});
-
-			this.menuView.getBeachButton().addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					beachView = new BeachView();
-					setGameState("Beach");
-					frame.getContentPane().removeAll();
-					beachPanel();
-				}
-			});
-
-			this.menuView.getCubeButton().addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					cubeView = new CubeView();
-					setGameState("Cube");
-					frame.getContentPane().removeAll();
-					cubePanel();
-
-				}
-			});
-
-			frame.setContentPane(background);
-			frame.add(this.menuView.getMazeButton());
-			frame.add(this.menuView.getBeachButton());
-			frame.add(this.menuView.getCubeButton());
-
-			frame.getContentPane().add(this).setBackground(Color.gray);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setSize(this.frameWidth, this.frameHeight);
-			frame.setVisible(true);
-
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
+		controller.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		controller.frame.getContentPane().add(this).setBackground(Color.gray);
+		controller.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		controller.frame.setSize(this.frameWidth, this.frameHeight);
+		controller.frame.setVisible(true);
 	}
-
-	/**
+/*
+	*//**
 	 * This method is responsible for making the Maze Panel.
 	 * 
 	 * @param none.
 	 * @return void.
-	 */
+	 *//*
 	public void mazePanel() {
-		JFrame frame = new JFrame();
-
-		this.mazeView.getBackButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				menuView = new MenuView();
-				setGameState("Menu");
-				frame.getContentPane().removeAll();
-				menuPanel();
-			}
-		});
-
-		frame.add(this.mazeView.getBackButton());
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.getContentPane().add(this).setBackground(Color.gray);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(this.frameWidth, this.frameHeight);
 		frame.setVisible(true);
 		frame.setFocusable(true);
 		frame.addKeyListener(this.mazeView);
-		frame.repaint();
 		frame.revalidate();
 	}
 
-	/**
+	*//**
 	 * This method is responsible for making the Beach Panel.
 	 * 
 	 * @param none.
 	 * @return void.
-	 */
+	 *//*
 	public void beachPanel() {
 		JFrame frame = new JFrame();
 		BeachView bv = new BeachView();
@@ -195,30 +102,6 @@ public class GameView extends JPanel {
 				menuPanel();
 			}
 		});
-
-		/*
-		 * ((BeachView) this.currGame).getAddGabion().addActionListener(new
-		 * ActionListener() { public void actionPerformed(ActionEvent e) {
-		 * 
-		 * //((BeachView) this.currGame).beach.placeGabion(); frame.repaint(); }
-		 * });
-		 * 
-		 * ((BeachView) this.currGame).getAddWall().addActionListener(new
-		 * ActionListener() { public void actionPerformed(ActionEvent e) {
-		 * //((BeachView) this.currGame).beach.placeWall(); frame.repaint(); }
-		 * });
-		 * 
-		 * ((BeachView) this.currGame).getAddGrass().addActionListener(new
-		 * ActionListener() { public void actionPerformed(ActionEvent e) {
-		 * //((BeachView) this.currGame).beach.placeGrass(); frame.repaint(); }
-		 * });
-		 * 
-		 * 
-		 * 
-		 * frame.add(((BeachView) this.currGame).getAddGabion());
-		 * frame.add(((BeachView) this.currGame).getAddWall());
-		 * frame.add(((BeachView) this.currGame).getAddGrass());
-		 */
 		frame.add(this.beachView.getBackButton());
 		frame.getContentPane().add(this).setBackground(Color.gray);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -227,15 +110,14 @@ public class GameView extends JPanel {
 		frame.setFocusable(true);
 		frame.addKeyListener(this.beachView);
 		frame.repaint();
-
 	}
 
-	/**
+	*//**
 	 * This method is responsible for making the Story Cube Panel.
 	 * 
 	 * @param none.
 	 * @return void.
-	 */
+	 *//*
 	public void cubePanel() {
 		JFrame frame = new JFrame();
 		this.cubeView.getBackButton().addActionListener(new ActionListener() {
@@ -269,16 +151,16 @@ public class GameView extends JPanel {
 
 
 
-			frame.add(this.cubeView.getBackButton());
-			frame.add(this.cubeView.getRollDiceButton());
-			frame.add(this.cubeView.getSubmitButton());
-			frame.add(this.cubeView.getStory());
-			//frame.add(this.cubeView.getDie1());
-			//frame.add(this.cubeView.getDie2());
-			//frame.add(this.cubeView.getDie3());
-			//frame.add(this.cubeView.getDie4());
-			frame.add(this.cubeView.holder);
-	
+		frame.add(this.cubeView.getBackButton());
+		frame.add(this.cubeView.getRollDiceButton());
+		frame.add(this.cubeView.getSubmitButton());
+		frame.add(this.cubeView.getStory());
+		//frame.add(this.cubeView.getDie1());
+		//frame.add(this.cubeView.getDie2());
+		//frame.add(this.cubeView.getDie3());
+		//frame.add(this.cubeView.getDie4());
+		frame.add(this.cubeView.holder);
+
 
 
 
@@ -293,7 +175,7 @@ public class GameView extends JPanel {
 		frame.revalidate();
 
 	}
-
+*/
 	/**
 	 * This method is responsible for painting the component for the JPanel.
 	 * 
@@ -304,26 +186,32 @@ public class GameView extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		if (gameState == "Maze") {
-			this.mazeView.draw(g);
+		if (controller.getGameState() == "Menu"){
+			this.controller.getMenuView().draw(g);
+		}
+		if (controller.getGameState() == "Maze") {
+			this.controller.getMazeView().draw(g);
 			Color c = new Color(0, 0, 0);
 			g.setColor(c);
-			if (this.mazeView.maze.getCurrDistance() != this.mazeView.maze.getDistance() && this.mazeView.maze.player.health >=0) {
-				if (this.mazeView.getTimeLeft() % 60 < 10) {
-					String countDown = this.mazeView.getTimeLeft() / 60 + ":" + "0" + this.mazeView.getTimeLeft() % 60;
+			if (this.controller.getMazeView().maze.getCurrDistance() != this.controller.getMazeView().maze.getDistance() 
+					&& this.controller.getMazeView().maze.player.health >=0
+					&& this.controller.getMazeView().getTimeLeft() >= 0) {
+				if (this.controller.getMazeView().getTimeLeft() % 60 < 10) {
+					String countDown = this.controller.getMazeView().getTimeLeft() / 60 + ":" + "0" + 
+				this.controller.getMazeView().getTimeLeft() % 60;
 					g.setFont(new Font("ComicSans", Font.PLAIN, 40));
-					g.drawString(countDown, 1100, 75);
+					g.drawString(countDown, frameWidth - timeOffsetX, timeOffsetY);
 				} else {
-					String countDown = this.mazeView.getTimeLeft() / 60 + ":" + this.mazeView.getTimeLeft() % 60;
+					String countDown = this.controller.getMazeView().getTimeLeft() / 60 + ":" + 
+				this.controller.getMazeView().getTimeLeft() % 60;
 					g.setFont(new Font("ComicSans", Font.PLAIN, 40));
-					g.drawString(countDown, 1100, 75);
+					g.drawString(countDown, frameWidth - timeOffsetX, timeOffsetY);
 				}
 			}
 		}
 
-		if (gameState == "Beach") {
-			this.beachView.draw(g);
+		if (controller.getGameState() == "Beach") {
+			this.controller.getBeachView().draw(g);
 			if (timeLeft % 60 < 10) {
 				String countDown = timeLeft / 60 + ":" + "0" + timeLeft % 60;
 				g.setFont(new Font("ComicSans", Font.PLAIN, 40));
@@ -335,63 +223,55 @@ public class GameView extends JPanel {
 			}
 		}
 
-		if (gameState == "Cube") {
-			this.cubeView.draw(g);
-		}
-
-	}
-
-	public void tick() {
-		if (gameState == "Maze") {
-			this.mazeView.tick();
-		}
-
-		if (gameState == "Beach") {
-			this.beachView.tick();
-		}
-
-		if (gameState == "Cube") {
-			// ((CubeView) currGame).draw(g);
+		if (controller.getGameState() == "Cube") {
+			this.controller.getCubeView().draw(g);
 		}
 	}
 
-	public String getGameState() {
-		return gameState;
-	}
-
-	public void setGameState(String gameState) {
-		this.gameState = gameState;
-	}
-
-	public static void main(String args[]) {
-		GameView game = new GameView();
-
-		// game.setDoubleBuffered(true);
-
-		game.makePanel();
-
-		long timer = System.currentTimeMillis();
+	private void run(){
+		//long timer = System.currentTimeMillis();
 		long lastTime = System.nanoTime();
-		final double amountOfTicks = 80.0;
+		final double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 
 		while (true) {
 			long now = System.nanoTime();
+			this.repaint();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
 			if (delta >= 1) {
-				game.tick();
+				this.tick();
 				delta--;
-			}
-			game.repaint();
-			if (game.gameState == "Beach") {
+			}/*
+			if (this.gameState == "Beach") {
 
 				if (System.currentTimeMillis() - timer > 1000) {
 					timer += 1000;
 					timeLeft--;
 				}
-			}
+			}*/
 		}
+	}
+	
+	public void tick() {
+		if (controller.getGameState() == "Maze") {
+			this.controller.getMazeView().tick();
+		}
+
+		if (controller.getGameState() == "Beach") {
+			this.controller.getBeachView().tick();
+		}
+
+		if (controller.getGameState() == "Cube") {
+			// this.controller.getCubeView().tick();
+		}
+	}
+
+	public static void main(String args[]) {
+		GameView game = new GameView();
+		game.menuPanel();
+		game.run();
+
 	}
 }

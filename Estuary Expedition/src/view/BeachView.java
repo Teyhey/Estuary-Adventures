@@ -15,7 +15,7 @@ import model.Wave;
 public class BeachView extends BeachController {
 
 	/**
-	 * This class handles the view components for the Beach Game.  
+	 * This class handles the view components for the Beach Game.  
 	 * 
 	 * @param
 	 * @author John Tejeda, Tyler Hill, Stephen Lu, Devarshi Patel
@@ -51,7 +51,7 @@ public class BeachView extends BeachController {
 	JButton addGrass;
 
 	/**
-	 * This method is fairly straight forward. It takes nothing in.  
+	 * This method is fairly straight forward. It takes nothing in.  
 	 * 
 	 * @param None
 	 * @return the back JButton.
@@ -61,7 +61,7 @@ public class BeachView extends BeachController {
 	}
 
 	/**
-	 * Class constructor Sets the fields for this class.  
+	 * Class constructor Sets the fields for this class.  
 	 * 
 	 * @param None
 	 * @return void.
@@ -75,9 +75,9 @@ public class BeachView extends BeachController {
 		/*
 		 * addGabion = new JButton("Add Gabion" + " " + "x" +
 		 * this.beach.numGabions); addGabion.setSize(inventWidth, inventHeight);
-		 * addGabion.setLocation(0, 640);   addWall = new JButton("Add Wall" +
+		 * addGabion.setLocation(0, 640);   addWall = new JButton("Add Wall" +
 		 * " " + "x" + this.beach.numWalls); addWall.setSize(inventWidth,
-		 * inventHeight); addWall.setLocation(0 + buttonWidth * 2, 640);  
+		 * inventHeight); addWall.setLocation(0 + buttonWidth * 2, 640);  
 		 * addGrass = new JButton("Add Grass" + " " + "x" +
 		 * this.beach.numGrass); addGrass.setSize(inventWidth, inventHeight);
 		 * addGrass.setLocation(0 + buttonWidth * 4, 640);
@@ -97,11 +97,11 @@ public class BeachView extends BeachController {
 	}
 
 	/**
-	 * This method is responsible for drawing the graphics on Panel.  
+	 * This method is responsible for drawing the graphics on Panel.  
 	 * 
 	 * @param g
-	 *                        This is the only parameter in this method and is
-	 *            of Graphics             type.
+	 *                        This is the only parameter in this method and is
+	 *            of Graphics             type.
 	 * @return void.
 	 */
 	public void draw(Graphics g) {
@@ -152,7 +152,7 @@ public class BeachView extends BeachController {
 				// different wave sizes
 				if (w.getSpeed() == 1 && this.beach.boat.getSpeed() < 0) {
 					w.waveType = "Large";
-					g.drawImage(waveImages[2], -this.beach.boat.xCoord, w.getyCoord() + 160, null);
+					g.drawImage(waveImages[2], this.beach.boat.xCoord, w.getyCoord() + 160, null);
 				}
 
 				if (w.getSpeed() == 1 && this.beach.boat.getSpeed() > 0) {
@@ -162,7 +162,7 @@ public class BeachView extends BeachController {
 
 				if (w.getSpeed() == 2 && this.beach.boat.getSpeed() < 0) {
 					w.waveType = "Medium";
-					g.drawImage(waveImages[1], -this.beach.boat.xCoord, w.getyCoord() + 160, null);
+					g.drawImage(waveImages[1], this.beach.boat.xCoord, w.getyCoord() + 160, null);
 				}
 
 				if (w.getSpeed() == 2 && this.beach.boat.getSpeed() > 0) {
@@ -172,7 +172,7 @@ public class BeachView extends BeachController {
 
 				if (w.getSpeed() == 3 && this.beach.boat.getSpeed() < 0) {
 					w.waveType = "Small";
-					g.drawImage(waveImages[0], -this.beach.boat.xCoord, w.getyCoord() + 160, null);
+					g.drawImage(waveImages[0], this.beach.boat.xCoord, w.getyCoord() + 160, null);
 				}
 
 				if (w.getSpeed() == 3 && this.beach.boat.getSpeed() > 0) {

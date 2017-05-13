@@ -29,12 +29,18 @@ public class MazeView extends MazeController{
 	 */
 	int buttonWidth = 75;
 	int buttonHeight = 50;
-	int frameWidth = 1280;
-	int frameHeight = 800;
+	int saltOffsetX = 140;
+	int saltOffsetY = 335;
+	int healthOffsetX = 295;
+	int healthOffsetY = 110;
+	int healthBGOffset = 5;
+	int clockOffsetX = 305;
+	int clockOffsetY = 10;
 	int rectWidth = 25;
 	int rectHeight = 25;
 	int healthWidth = 125;
 	int healthHeight = 25;
+	float progress = 0.0f;
 
 	String playerIcon = "Game Files/bluecrab_back.png";
 	String salinity = "Game Files/SalinityMeter.png";
@@ -42,25 +48,8 @@ public class MazeView extends MazeController{
 	String[] enemies = {"Game Files/fish_bass_right.png", "Game Files/fish_bass_left.png", "Game Files/fish_bass_up.png","Game Files/fish_bass_down.png"};;
 	String rocks = "Game Files/rock.png";
 	String powers = "Game Files/0.png";
-	JButton backButton;
+	String exitIcon = "Game Files/Exit_Button.png";
 
-
-	//String[][] paths = new String[4][];  paths of images for the maze
-	// left, right, up, down
-	//
-
-	//String[] growing; The array of images for the stages of growth for the crab
-
-
-	/**
-	 * This method is fairly straight forward.
-	 * It takes nothing in.
-	 * @param None
-	 * @return the back JButton.
-	 */
-	public JButton getBackButton() {
-		return backButton;
-	}
 
 	/**
 	 * Class constructor
@@ -70,9 +59,6 @@ public class MazeView extends MazeController{
 	 */
 	public MazeView(){
 		super(500, 120);
-		backButton = new JButton ("Exit");
-		backButton.setSize(buttonWidth, buttonHeight);
-		backButton.setLocation(0, 0);
 	}
 
 	/**
@@ -87,11 +73,13 @@ public class MazeView extends MazeController{
 			BufferedImage clock;
 			BufferedImage[] enemy;
 			BufferedImage obstack;
-			//		BufferedImage boost;
+			BufferedImage exit;
 
 			BufferedImage background = ImageIO.read(new File("Game Files/MazeIntro.png"));
 			g.drawImage(background, 0, 0, null);
 
+
+			exit = ImageIO.read(new File(exitIcon));
 			icon = ImageIO.read(new File(playerIcon));
 			salt = ImageIO.read(new File(salinity));
 			clock = ImageIO.read(new File(timer));
@@ -100,7 +88,6 @@ public class MazeView extends MazeController{
 				enemy[i] = ImageIO.read(new File(enemies[i]));
 			}
 			obstack = ImageIO.read(new File(rocks));
-			//			boost = ImageIO.read(new File(powers));
 
 			this.maze.player.setWidth(icon.getWidth());
 			this.maze.player.setHeight(icon.getHeight());
@@ -121,19 +108,23 @@ public class MazeView extends MazeController{
 			this.maze.player.setWidth(scaledIcon.getWidth());
 			this.maze.player.setHeight(scaledIcon.getHeight());
 			
+			// ==========Game Over Screens==================
 			if (this.getTimeLeft() <= 0 || this.maze.player.health <= 0){
 				g.setFont(new Font("ComicSans", Font.PLAIN, 100));
 				g.drawString("REST IN PEACE", 100, 300);
+				g.drawImage(exit, 0, 0, null);
 			} else {
+				// ========================================================================
+				// ========================Player, enemies, objects========================
+				// ========================================================================
 				if (maze.getCurrDistance() < maze.getDistance()){
-					backButton.paint(g);
 					for (Obstacle o: this.maze.obstacles){
 						g.drawImage(obstack, o.xCoord, o.yCoord, null);
 					}
 					//g.drawImage(boost, maze.item.xCoord, maze.item.yCoord, null);
+					
 					g.drawImage(scaledIcon, this.maze.player.getxCoord() , this.maze.player.getyCoord(), null);
-					g.drawImage(salt, 1150 , 475, null);
-					Color goal = new Color (255,255, 0, this.maze.getOpacity());
+					Color goal = new Color (255,255, 0, opacity);
 					g.setColor(goal);
 					if (this.maze.getStart() == 1){
 						g.fillRect(frameWidth - rectWidth, 0, rectWidth, frameHeight);
@@ -150,12 +141,14 @@ public class MazeView extends MazeController{
 					
 					Color black = new Color (0, 0, 0);
 					g.setColor(black);
-					g.fillRect(995, 695, healthWidth + 10,healthHeight + 10);
-					Color health = new Color (255, 0, 0);
-					double healthScale = this.maze.player.health/500.000;
+					g.fillRect(frameWidth - healthOffsetX - healthBGOffset,
+							frameHeight - healthOffsetY - healthBGOffset, healthWidth + 10,healthHeight + 10);
+					Color health = new Color (255, 0, 0, healthOpacity);
+					double healthScale = this.maze.player.health/maxHealth;
 					int scaledHealth = (int) (healthScale*healthWidth);
 					g.setColor(health);
-					g.fillRect(1000, 700, scaledHealth,healthHeight);
+					g.fillRect(frameWidth - healthOffsetX, frameHeight - healthOffsetY, scaledHealth,healthHeight);
+					g.drawImage(salt, frameWidth - saltOffsetX , frameHeight - saltOffsetY, null);
 					
 					for (Enemy e: this.maze.enemy){
 						if (e.getDirection() == 0 && e.getSpeed() > 0){
@@ -180,12 +173,15 @@ public class MazeView extends MazeController{
 						}
 
 					}
-					g.drawImage(clock, 975 , 10, null);
+					g.drawImage(clock, frameWidth - clockOffsetX, clockOffsetY, null);
+					g.drawImage(exit, 0, 0, null);
 				}
 				else {
+					// =====================Win Screen=========================
 					g.setFont(new Font("ComicSans", Font.PLAIN, 100));
 					g.drawString("YOU MADE IT TO THE", 100, 300);
 					g.drawString("ESTUARY", 375, 500);
+					g.drawImage(exit, 0, 0, null);
 				}
 			}
 		} catch (IOException e) {

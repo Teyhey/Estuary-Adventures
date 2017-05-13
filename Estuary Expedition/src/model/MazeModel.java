@@ -3,34 +3,52 @@ import model.Player;
 import model.Obstacle;
 import model.Item;
 import model.Enemy;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.Random;
 
 public class MazeModel{
 
-	int frameWidth = 1280;
-	int frameHeight = 800;
-	int distance;
-	int currDistance;
-	int start;
-	int opacity;
-	int opacityTick;
+	protected int frameWidth;
+	protected int frameHeight;
+	protected boolean tutorial;
+	protected int distance;
+	protected int currDistance;
+	protected int obstacleNum;
+	protected int start;
+	protected int opacity;
+	protected int opacityTick;
+	protected int healthOpacity;
+	protected int healthOpacityTick;
+	protected int fishSp;
+	protected int padding;
 	public Player player = new Player(0, 0, 500);
 	public Item item;
 	public Enemy[] enemy;
 	public Obstacle[] obstacles;
 
-	public MazeModel(int health) {
+	public MazeModel(boolean tutorial, int health) {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		this.frameWidth = (int) screenSize.getWidth();
+		this.frameHeight = (int) screenSize.getHeight();
+		this.tutorial = true;
 		Random rand = new Random();
 		int n = rand.nextInt(4) + 1;
 		this.start = n;
 		this.opacity = 250;
-		this.opacityTick = -1;
+		this.opacityTick = -3;
+		this.healthOpacity = 250;
+		this.healthOpacityTick = -10;
+		this.fishSp = 5;
+		item = new Item("Boost", 1);
+		this.currDistance = 0;
+		this.obstacleNum = 5;
+		this.distance = 15;
+		this.padding = 65;
 		placePlayer(n, health);
 		createEnemies();
 		createObstacles();
-		item = new Item("Boost", 1);
-		this.currDistance = 0;
-		this.distance = 15;
 	}
 
 	public int getDistance() {
@@ -73,6 +91,14 @@ public class MazeModel{
 		this.opacityTick = opacityTick;
 	}
 
+	public boolean isTutorial() {
+		return tutorial;
+	}
+
+	public void setTutorial(boolean tutorial) {
+		this.tutorial = tutorial;
+	}
+
 	private void placePlayer(int x, int health){
 		if (x == 1){
 			player = new Player(0, frameHeight/2, health);
@@ -88,24 +114,24 @@ public class MazeModel{
 		}
 	}
 
-	public void createEnemies(){
+	private void createEnemies(){
 		Random rand = new Random();
 		int x = start%2;
 		this.enemy = new Enemy[2];
-		int speeds[] = {-1, 1};
+		int speeds[] = {-this.fishSp, this.fishSp};
 
 		if (x == 0){
 			for (int i = 0; i < 2; i++){
-				int n = rand.nextInt(frameHeight - 400);
+				int n = rand.nextInt(frameHeight);
 				int s = rand.nextInt(1);
-				enemy[i] = new Enemy(x, "Fish", 5, speeds[s], n, (300 *i) + 100);
+				enemy[i] = new Enemy(x, "Fish", 5, speeds[s], n, (frameHeight/3) * (i+1) - this.padding);
 			}
 		}
 		else { 
 			for (int i = 0; i < 2; i++){
 				int n = rand.nextInt(frameWidth - 400);
 				int s = rand.nextInt(1);
-				enemy[i] = new Enemy(x, "Fish", 5, speeds[s], (500 *i) + 300, n);
+				enemy[i] = new Enemy(x, "Fish", 5, speeds[s], (frameWidth/3) * (i+1) - this.padding, n);
 			}
 		}
 	}
@@ -113,10 +139,10 @@ public class MazeModel{
 
 	public void createObstacles(){
 		Random rand = new Random();
-		this.obstacles = new Obstacle[3];
-		for (int i = 0; i < 3; i++){
-			int x = rand.nextInt(frameWidth/2) + frameWidth/4;
-			int y = rand.nextInt(frameHeight - 150);
+		this.obstacles = new Obstacle[this.obstacleNum];
+		for (int i = 0; i < obstacleNum; i++){
+			int x = rand.nextInt((frameWidth/5) * 3) + (frameWidth/5);
+			int y = rand.nextInt((frameHeight/5) * 3) + (frameHeight/5);
 			obstacles[i] = new Obstacle(x, y);
 		}
 	}
