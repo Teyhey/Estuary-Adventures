@@ -7,8 +7,8 @@ public class Item {
 	int quantity;
 	public int xCoord = 400;
 	public int yCoord = 200;
-	public int width = 0;
-	public int height = 0;
+	public int width = 130;
+	public int height = 80;
 	public int health = 10;
 
 	public Item(String n, int q) {

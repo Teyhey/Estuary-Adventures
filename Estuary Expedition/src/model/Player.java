@@ -11,12 +11,6 @@ public class Player extends Character{
 	int difficulty;
 	boolean isDead;
 	
-	ArrayList<Boat> boats;
-	ArrayList<Wave> waves;
-	ArrayList<Obstacle> obstacles;
-	ArrayList<Item> inventory;
-	ArrayList<Enemy> enemies;
-	
 
 	public Player(int x, int y, int health) {
 		super (x, y);
@@ -92,21 +86,7 @@ public class Player extends Character{
 		this.isDead = isDead;
 	}
 	
-	public void setEnemies(ArrayList<Enemy> e){
-		this.enemies = e;
-	}
-
-	public ArrayList<Enemy> getEnemies(){
-		return enemies;
-	}
 	
-	public ArrayList<Boat> getBoats() {
-		return boats;
-	}
-
-	public void setBoats(ArrayList<Boat> boats) {
-		this.boats = boats;
-	}
 
 	public int getEnemyFish() {
 		return enemyFish;
@@ -124,13 +104,7 @@ public class Player extends Character{
 		this.numPowerUps = numPowerUps;
 	}
 
-	public ArrayList<Item> getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(ArrayList<Item> inventory) {
-		this.inventory = inventory;
-	}
+	
 
 	public int getDifficulty() {
 		return difficulty;
@@ -150,11 +124,11 @@ public class Player extends Character{
 
 	@Override
 	public String toString() {
-		return "Player [xCoord=" + xCoord + ", yCoord=" + yCoord + ", health=" + health + ", enemyFish=" + enemyFish
-				+ ", numPowerUps=" + numPowerUps + ", difficulty=" + difficulty + ", isDead=" + isDead + ", boats="
-				+ boats + ", waves=" + waves + ", obstacles=" + obstacles + ", inventory=" + inventory + ", enemies="
-				+ enemies + "]";
+		return "Player [health=" + health + ", enemyFish=" + enemyFish + ", numPowerUps=" + numPowerUps
+				+ ", difficulty=" + difficulty + ", isDead=" + isDead + "]";
 	}
+
+	
 
 
 

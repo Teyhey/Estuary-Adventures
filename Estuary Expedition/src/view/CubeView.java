@@ -33,6 +33,8 @@ public class CubeView extends CubeController {
 	String dice1;
 	String dice2;
 	String dice3;
+	String dice4;
+	String dice5;
 	Random rand = new Random();
 	JButton backButton;
 	JButton rollDice;
@@ -79,15 +81,6 @@ public class CubeView extends CubeController {
 	public CubeView() {
 		super();
 		
-		backButton = new JButton("Exit");
-		backButton.setSize(buttonWidth, buttonHeight);
-		backButton.setLocation(0, 0);
-		
-		
-		
-		rollDice = new JButton("Roll Dice");
-		rollDice.setSize(100, 50);
-		rollDice.setLocation(100, 400);
 		
 		submit = new JButton("Submit Story");
 		submit.setSize(125, 50);
@@ -96,6 +89,7 @@ public class CubeView extends CubeController {
 		userStory = new JTextField("Enter your Story here");
 		userStory.setSize(200, 50);
 		userStory.setLocation(300, 400);
+		
 		
 		//holder.setSize(200, 200);
 		//holder.setLocation(200, 200);
@@ -119,6 +113,13 @@ public class CubeView extends CubeController {
 		
 		randomPic = rand.nextInt(dicePics.length - 1) + 0;
 		dice3 = dicePics[randomPic];
+		
+		randomPic = rand.nextInt(dicePics.length - 1) + 0;
+		dice4 = dicePics[randomPic];
+		
+		randomPic = rand.nextInt(dicePics.length - 1) + 0;
+		dice5 = dicePics[randomPic];
+		
 	}
 	
 	/**
@@ -129,29 +130,45 @@ public class CubeView extends CubeController {
 	public void draw(Graphics g) {
 		try {
 			
+			BufferedImage diceOne;
+			BufferedImage diceTwo;
+			BufferedImage diceThree;
+			BufferedImage diceFour;
+			BufferedImage diceFive;
+			BufferedImage exit;
+			BufferedImage rollDice;
 			
 			
-			BufferedImage diceUno;
-			BufferedImage diceDos;
-			BufferedImage diceTres;
 			BufferedImage background = ImageIO.read(new File("Game Files/2D_estuary.jpg"));
 			g.drawImage(background, 0, 0, null);
+			
+			exit = ImageIO.read(new File("Game Files/Exit_Button.png"));
+			g.drawImage(exit, 0, 0, null);
+			
+			rollDice = ImageIO.read(new File("Game Files/RollDice.jpg"));
+			g.drawImage(rollDice, 300, 300, null);
+			
+			
 
-			diceUno = ImageIO.read(new File(dice1));
-			diceDos = ImageIO.read(new File(dice2));
-			diceTres = ImageIO.read(new File(dice3));
+			diceOne = ImageIO.read(new File(dice1));
+			diceTwo = ImageIO.read(new File(dice2));
+			diceThree = ImageIO.read(new File(dice3));
+			diceFour = ImageIO.read(new File(dice4));
+			diceFive = ImageIO.read(new File(dice5));
+			
+			
 
-			backButton.repaint();
-			rollDice.repaint();
-			submit.repaint();
-			userStory.repaint();
+			//userStory.paint();
 			
 			
 			
 			
-			g.drawImage(diceUno, 100, 100, null);
-			g.drawImage(diceDos, 500, 100, null);
-			g.drawImage(diceTres, 900, 100, null);
+			g.drawImage(diceOne, 50, 100, null);
+			g.drawImage(diceTwo, 300, 100, null);
+			g.drawImage(diceThree, 550, 100, null);
+			g.drawImage(diceFour, 800, 100, null);
+			g.drawImage(diceFive, 1050, 100, null);
+			
 		
 
 		} catch (IOException e) {

@@ -7,7 +7,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JTextArea;
+
 import controller.BeachController;
+import javafx.scene.text.Font;
 import model.Boat;
 import model.Item;
 import model.Wave;
@@ -15,7 +18,7 @@ import model.Wave;
 public class BeachView extends BeachController {
 
 	/**
-	 * This class handles the view components for the Beach Game.  
+	 * This class handles the view components for the Beach Game.
 	 * 
 	 * @param
 	 * @author John Tejeda, Tyler Hill, Stephen Lu, Devarshi Patel
@@ -33,7 +36,6 @@ public class BeachView extends BeachController {
 	String boatL;
 	String boatR;
 	String timer;
-	String inventory;
 	String wave;
 	String gabion;
 	String wall;
@@ -41,50 +43,35 @@ public class BeachView extends BeachController {
 	String oyst;
 	String bloc;
 	String sed;
+	String exitIcon = "Game Files/Exit_Button.png";
 	String[] boatz = { "Game Files/dirtyvesselRight.png", "Game Files/dirtyvesselLeft.png" };
 	String[] wavez = { "Game Files/splashSMALL.png", "Game Files/splashMED.png", "Game Files/splashBIG.png" };
-	String[] pickUps = {"Game Files/oyster.png", "Game Files/block.png", "Game Files/seeds/png"};
+	String[] pickUps = { "Game Files/oyster.png", "Game Files/block.png", "Game Files/seeds/png" };
 
-	JButton backButton;
-	JButton addGabion;
-	JButton addWall;
-	JButton addGrass;
+	JTextArea inventory;
+
 
 	/**
-	 * This method is fairly straight forward. It takes nothing in.  
-	 * 
-	 * @param None
-	 * @return the back JButton.
-	 */
-	public JButton getBackButton() {
-		return backButton;
-	}
-
-	/**
-	 * Class constructor Sets the fields for this class.  
+	 * Class constructor Sets the fields for this class.
 	 * 
 	 * @param None
 	 * @return void.
 	 */
 	public BeachView() {
 		super();
-		backButton = new JButton("Exit");
-		backButton.setSize(buttonWidth, buttonHeight);
-		backButton.setLocation(0, 0);
 
 		/*
 		 * addGabion = new JButton("Add Gabion" + " " + "x" +
 		 * this.beach.numGabions); addGabion.setSize(inventWidth, inventHeight);
-		 * addGabion.setLocation(0, 640);   addWall = new JButton("Add Wall" +
-		 * " " + "x" + this.beach.numWalls); addWall.setSize(inventWidth,
-		 * inventHeight); addWall.setLocation(0 + buttonWidth * 2, 640);  
+		 * addGabion.setLocation(0, 640); addWall = new JButton("Add Wall" + " "
+		 * + "x" + this.beach.numWalls); addWall.setSize(inventWidth,
+		 * inventHeight); addWall.setLocation(0 + buttonWidth * 2, 640);
 		 * addGrass = new JButton("Add Grass" + " " + "x" +
 		 * this.beach.numGrass); addGrass.setSize(inventWidth, inventHeight);
 		 * addGrass.setLocation(0 + buttonWidth * 4, 640);
 		 */
 		playerIcon = "Game Files/crab.png";
 		timer = "Game Files/timer.png";
-		inventory = "Game Files/Inventory.png";
 		wave = "Game Files/splashSMALL.png";
 		boatL = "Game Files/dirtyvesselLeft.png";
 		boatR = "Game Files/dirtyvesselRight.png";
@@ -94,21 +81,24 @@ public class BeachView extends BeachController {
 		oyst = "Game Files/oyster.png";
 		bloc = "Game Files/block.png";
 		sed = "Game Files/seeds.png";
+		exitIcon = "Game Files/Exit_Button.png";
+
+		inventory = new JTextArea("Oyster Shells: " + this.beach.numOysters + "/n" + "Blocks: " + this.beach.numBlocks
+				+ "/n" + "Seeds: " + this.beach.numSeeds);
 	}
 
 	/**
-	 * This method is responsible for drawing the graphics on Panel.  
+	 * This method is responsible for drawing the graphics on Panel.
 	 * 
 	 * @param g
-	 *                        This is the only parameter in this method and is
-	 *            of Graphics             type.
+	 *            This is the only parameter in this method and is of Graphics
+	 *            type.
 	 * @return void.
 	 */
 	public void draw(Graphics g) {
 		try {
 			BufferedImage icon;
 			BufferedImage clock;
-			BufferedImage slots;
 			BufferedImage[] waveImages;
 			BufferedImage Gabby;
 			BufferedImage Wally;
@@ -116,9 +106,10 @@ public class BeachView extends BeachController {
 			BufferedImage clams;
 			BufferedImage plant;
 			BufferedImage cement;
-			
+			BufferedImage exit;
+
 			BufferedImage[] boatImages;
-			
+
 			boatImages = new BufferedImage[2];
 			for (int i = 0; i < boatImages.length; i++) {
 				boatImages[i] = ImageIO.read(new File(boatz[i]));
@@ -129,13 +120,11 @@ public class BeachView extends BeachController {
 				waveImages[i] = ImageIO.read(new File(wavez[i]));
 			}
 
-			
 			BufferedImage background = ImageIO.read(new File("Game Files/Beach.png"));
 			g.drawImage(background, 0, 0, null);
 
 			icon = ImageIO.read(new File(playerIcon));
 			clock = ImageIO.read(new File(timer));
-			slots = ImageIO.read(new File(inventory));
 			// waves = ImageIO.read(new File(wave));
 			Gabby = ImageIO.read(new File(gabion));
 			Wally = ImageIO.read(new File(wall));
@@ -143,10 +132,15 @@ public class BeachView extends BeachController {
 			clams = ImageIO.read(new File(oyst));
 			cement = ImageIO.read(new File(bloc));
 			plant = ImageIO.read(new File(sed));
-			
+			exit = ImageIO.read(new File(exitIcon));
 
-			g.drawImage(icon, this.beach.player.getxCoord(), this.beach.player.getyCoord(), null);
-			g.drawImage(slots, 0, 654, null);
+			this.beach.player.setWidth(icon.getWidth());
+			this.beach.player.setHeight(icon.getHeight());
+
+		
+			g.drawString("Oysters: " + beach.numOysters, 75, 15);
+			g.drawString("Blocks: " + beach.numBlocks, 75, 35);
+			g.drawString("Seeds: " + beach.numSeeds, 75, 55);
 
 			for (Wave w : this.beach.waves) { // different speeds will produce
 				// different wave sizes
@@ -197,43 +191,38 @@ public class BeachView extends BeachController {
 
 			g.drawImage(clock, 975, 10, null);
 
-			// backButton.paint(g);
-			// addGabion.paint(g);
-			// addWall.paint(g);
-			// addGrass.paint(g);
-
 			// Adding images of beach fortifications
 			for (Item bar : this.beach.barriers) {
-				if (bar.itemType.equals("Gabion")){
+				if (bar.itemType.equals("Gabion")) {
 					g.drawImage(Gabby, bar.xCoord, bar.yCoord, null);
 				}
-				
-				if (bar.itemType.equals("Wall")){
+
+				if (bar.itemType.equals("Wall")) {
 					g.drawImage(Wally, bar.xCoord, bar.yCoord, null);
 				}
-				
-				if (bar.itemType.equals("Grass")){
+
+				if (bar.itemType.equals("Grass")) {
 					g.drawImage(Gass, bar.xCoord, bar.yCoord, null);
 				}
 			}
 
-
 			// Adding the currency to the game
-			for (Item cur : this.beach.currency) {
-				if (cur.itemType.equals("Oyster")){
+			for (Item cur : this.beach.currencyArr) {
+				if (cur.itemType.equals("Oyster")) {
 					g.drawImage(clams, cur.xCoord, cur.yCoord, null);
 				}
-				
-				if (cur.itemType.equals("Block")){
+
+				if (cur.itemType.equals("Block")) {
 					g.drawImage(cement, cur.xCoord, cur.yCoord, null);
 				}
-				
-				if (cur.itemType.equals("Seed")){
+
+				if (cur.itemType.equals("Seed")) {
 					g.drawImage(plant, cur.xCoord, cur.yCoord, null);
 				}
 			}
-			
-			
+			g.drawImage(icon, this.beach.player.getxCoord(), this.beach.player.getyCoord(), null);
+			g.drawImage(exit, 0, 0, null);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -287,48 +276,12 @@ public class BeachView extends BeachController {
 		this.timer = timer;
 	}
 
-	public String getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(String inventory) {
-		this.inventory = inventory;
-	}
-
 	public String getWave() {
 		return wave;
 	}
 
 	public void setWave(String wave) {
 		this.wave = wave;
-	}
-
-	public JButton getAddGabion() {
-		return addGabion;
-	}
-
-	public void setAddGabion(JButton addGabion) {
-		this.addGabion = addGabion;
-	}
-
-	public JButton getAddWall() {
-		return addWall;
-	}
-
-	public void setAddWall(JButton addWall) {
-		this.addWall = addWall;
-	}
-
-	public JButton getAddGrass() {
-		return addGrass;
-	}
-
-	public void setAddGrass(JButton addGrass) {
-		this.addGrass = addGrass;
-	}
-
-	public void setBackButton(JButton backButton) {
-		this.backButton = backButton;
 	}
 
 }

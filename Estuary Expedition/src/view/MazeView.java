@@ -130,13 +130,13 @@ public class MazeView extends MazeController{
 						g.fillRect(frameWidth - rectWidth, 0, rectWidth, frameHeight);
 					}
 					if (this.maze.getStart() == 2){
-						g.fillRect(0, frameHeight - (rectHeight*2), frameWidth, rectHeight);
+						g.fillRect(0, frameHeight - rectHeight, frameWidth, rectHeight);
 					}
 					if (this.maze.getStart() == 3){
-						g.fillRect(0, 0, rectWidth/2, frameHeight);
+						g.fillRect(0, 0, rectWidth, frameHeight);
 					}
 					if (this.maze.getStart() == 4){
-						g.fillRect(0, 0, frameWidth, rectHeight/2);
+						g.fillRect(0, 0, frameWidth, rectHeight);
 					}
 					
 					Color black = new Color (0, 0, 0);

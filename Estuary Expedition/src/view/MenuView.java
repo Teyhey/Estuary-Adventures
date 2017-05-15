@@ -19,6 +19,7 @@ public class MenuView extends MenuModel {
 	BufferedImage beach;
 	BufferedImage cube;
 	BufferedImage background;
+	BufferedImage exit;
 
 	public MenuView() {
 		super();
@@ -29,6 +30,7 @@ public class MenuView extends MenuModel {
 			maze = ImageIO.read(new File("Game Files/MazeButton.png"));
 			beach = ImageIO.read(new File("Game Files/Beach Barriers Button.jpg"));
 			cube = ImageIO.read(new File("Game Files/Die Game Button.jpg"));
+			exit = ImageIO.read(new File("Game Files/Exit_Button.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,5 +51,6 @@ public class MenuView extends MenuModel {
 		g.drawImage(maze, mazeButtonX, mazeButtonY, null);
 		g.drawImage(beach, beachButtonX, beachButtonY, null);
 		g.drawImage(cube, cubeButtonX, cubeButtonY, null);
+		g.drawImage(exit, 0, 0, null);
 	}
 }

@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 
@@ -60,6 +61,7 @@ public class GameView extends JPanel {
 	 */
 	public void menuPanel() {
 		controller.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		controller.frame.setUndecorated(true);
 		controller.frame.getContentPane().add(this).setBackground(Color.gray);
 		controller.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		controller.frame.setSize(this.frameWidth, this.frameHeight);

@@ -22,15 +22,17 @@ public class BeachModel {
 	public ArrayList<Wave> waves;
 	public ArrayList<Item> barriers;
 	public ArrayList<Item> currency;
+	public Item[] currencyArr;
 
 	public int numGabions;
 	public int numWalls;
 	public int numGrass;
 	public int beachHealth;
 	int health = 100;
-	int numSeeds;
-	int numBlocks;
-	int numOysters;
+	public int numSeeds;
+	public int numBlocks;
+	public int numOysters;
+	int spawnCap;
 
 	public BeachModel() {
 		player = new Player(0, 600, 900);
@@ -50,14 +52,15 @@ public class BeachModel {
 		numSeeds = 0;
 		numOysters = 0;
 		numBlocks = 0;
+		spawnCap = 40;
 
 		waves = new ArrayList<Wave>();
 		boats = new ArrayList<Boat>();
 		barriers = new ArrayList<Item>();
 		currency = new ArrayList<Item>();
-
+		currencyArr = new Item[10];
 		createOcean();
-		createCurrency(spawnCurrency());
+		createCurrency();
 
 	}
 
@@ -99,47 +102,45 @@ public class BeachModel {
 		}
 	}
 
-	public void createCurrency(String type) {
-		if (type.equals("Oyster")) {
-			Random rand = new Random();
-			int y = rand.nextInt(700) + 450;
-			int x = rand.nextInt(frameWidth) + 0;
-
-			this.oyster = new Item("Oyster", 1);
-			this.oyster.xCoord = x;
-			this.oyster.yCoord = y;
-			currency.add(oyster);
-		}
-
-		if (type.equals("Seed")) {
-			Random rand = new Random();
-			int y = rand.nextInt(700) + 450;
-			int x = rand.nextInt(frameWidth) + 0;
-
-			this.seed = new Item("Seed", 1);
-			this.seed.xCoord = x;
-			this.seed.yCoord = y;
-			currency.add(seed);
-		}
-
-		if (type.equals("Block")) {
-			Random rand = new Random();
-			int y = rand.nextInt(700) + 450;
-			int x = rand.nextInt(frameWidth) + 0;
-
-			this.block = new Item("Block", 1);
-			this.block.xCoord = x;
-			this.block.yCoord = y;
-			currency.add(block);
-		}
-	}
-
-	public String spawnCurrency() {
+	public void createCurrency() {
 		Random rand = new Random();
 		String[] types = { "Oyster", "Block", "Seed" };
-		int index = rand.nextInt(3);
 
-		return types[index];
+		for (int v = 0; v < currencyArr.length; v++) {
+			int index = rand.nextInt(3);
+			String pick = types[index];
+			int y = rand.nextInt(frameHeight/4) + frameHeight/4 * 3 - spawnCap;
+			int x = rand.nextInt(frameWidth - spawnCap);
+
+			if (pick.equals("Oyster")) {
+				this.oyster = new Item(pick, 1);
+				this.oyster.xCoord = x;
+				this.oyster.yCoord = y;
+				//numOysters++;
+
+				currency.add(oyster);
+			} else
+
+			if (pick.equals("Seed")) {
+				this.seed = new Item(pick, 1);
+				this.seed.xCoord = x;
+				this.seed.yCoord = y;
+				//numSeeds++;
+
+				currency.add(seed);
+			} else
+
+			if (pick.equals("Block")) {
+				this.block = new Item(pick, 1);
+				this.block.xCoord = x;
+				this.block.yCoord = y;
+				//numBlocks++;
+
+				currency.add(block);
+			}
+			currencyArr[v] = currency.get(v);
+		}
+
 	}
 
 	public void createOcean() {
@@ -151,8 +152,8 @@ public class BeachModel {
 		int speedsWave[] = { 1, 2, 3 };
 		int possible[] = { -1, 1 };
 
-		for (int i = 0; i < 5; i++) {
-			// int n = rand.nextInt(frameHeight - 400);
+		for (int i = 0; i < boatNum; i++) {
+			int n = rand.nextInt(frameHeight - 400);
 			int sBoat = rand.nextInt(1);
 			int sWave = rand.nextInt(3);
 			int direct = rand.nextInt(2);
@@ -160,8 +161,7 @@ public class BeachModel {
 			int yLoc = rand.nextInt(300) + 30;
 			int yAdd = rand.nextInt(90) + 75;
 
-			this.boats.add(i,
-					new Boat("Dirty Vessel", 5, speedsBoat[sBoat] * possible[direct], frameWidth, yLoc + yAdd));
+			this.boats.add(i, new Boat("Dirty Vessel", 5, speedsBoat[sBoat] * possible[direct], frameWidth, yLoc + yAdd));
 			// this.boat.setxCoord(boats.get(i).getxCoord());
 			this.waves.add(new Wave(speedsWave[sWave], this.boat.getxCoord(), this.wave.getyCoord()));
 

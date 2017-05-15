@@ -8,6 +8,7 @@ import model.BeachModel;
 import model.Boat;
 import model.Character;
 import model.Item;
+import model.Player;
 import model.Wave;
 
 public class BeachController implements KeyListener {
@@ -21,6 +22,8 @@ public class BeachController implements KeyListener {
 	int time;
 	boolean hitWater = false;
 	boolean hitBarrier = false;
+	boolean pickUp = false;
+
 	int collision = 10;
 
 	public BeachController() {
@@ -33,9 +36,9 @@ public class BeachController implements KeyListener {
 
 	public void tick() {
 		move();
+		waveHit(beach.wave);
 		boatMove(beach.boat);
 		waveMove(beach.wave);
-		beach.createCurrency(beach.spawnCurrency());
 	}
 
 	private void move() {
@@ -47,96 +50,28 @@ public class BeachController implements KeyListener {
 			waveMove(w);
 		}
 
-		waveMove(beach.wave);
 		checkBorders(beach.player);
-		checkXCollisionRight(beach.player, beach.wave);
-		checkXCollisionLeft(beach.player, beach.wave);
-		checkYCollisionUp(beach.player, beach.wave);
-		checkYCollisionDown(beach.player, beach.wave);
-		checkVerticalHit(beach.wave, beach.gabion);
-		// checkVerticalHit(beach.wave, beach.wall);
-		// checkVerticalHit(beach.wave, beach.grass);
+		beach.createCurrency();
+		pickUpCurrency(beach.player);
 	}
 
-	private void checkBorders(Character c) {
-		if (c.xCoord <= -1) {
-			c.xCoord = 0;
+	private void checkBorders(Player p) {
+		if (p.xCoord <= -1) {
+			p.xCoord = 0;
 		} else {
-			if (c.xCoord >= frameWidth - c.width + 1) {
-				c.xCoord = frameWidth - c.width;
+			if (p.xCoord >= frameWidth - p.width + 1) {
+				p.xCoord = frameWidth - p.width;
 			} else {
-				c.xCoord += xVel;
+				p.xCoord += xVel;
 			}
 		}
-		if (c.yCoord <= -1) {
-			c.yCoord = 0;
+		if (p.yCoord <= ((frameHeight / 3) * 2) - 1) {
+			p.yCoord = (frameHeight / 3) * 2;
 		} else {
-			if (c.yCoord <= 540 - c.height + 1) {
-				c.yCoord = 540 - c.height + 1;
+			if (p.yCoord >= (frameHeight - p.height) + 1) {
+				p.yCoord = frameHeight - p.height;
 			} else {
-				c.yCoord += yVel;
-			}
-		}
-	}
-
-	private void checkXCollisionRight(Character c, Wave wave) {
-		if (c.xCoord + c.width >= wave.xCoord + collision && c.xCoord + c.width <= wave.xCoord + wave.width / 4) {
-			if (c.yCoord >= wave.yCoord + collision && c.yCoord <= wave.yCoord + wave.height - (collision * 2)) {
-				c.xCoord -= 10;
-			}
-			if (c.yCoord + c.height >= wave.yCoord && c.yCoord + c.height <= wave.yCoord + wave.height - collision) {
-				c.xCoord -= 10;
-			}
-			if (c.yCoord + c.height / 2 >= wave.yCoord
-					&& c.yCoord + c.height / 2 <= wave.yCoord + wave.height - collision) {
-				c.xCoord -= 5;
-			}
-		}
-	}
-
-	private void checkXCollisionLeft(Character c, Wave wave) {
-		if (c.xCoord <= wave.xCoord + wave.width - collision && c.xCoord >= wave.xCoord + wave.width / 4) {
-			if (c.yCoord >= wave.yCoord - collision && c.yCoord <= wave.yCoord + wave.height - (collision * 2)) {
-				c.xCoord += 10;
-			}
-			if (c.yCoord + c.height >= wave.yCoord && c.yCoord + c.height <= wave.yCoord + wave.height - collision) {
-				c.xCoord += 10;
-			}
-			if (c.yCoord + c.height / 2 >= wave.yCoord
-					&& c.yCoord + c.height / 2 <= wave.yCoord + wave.height - collision) {
-				c.xCoord += 5;
-			}
-		}
-	}
-
-	private void checkYCollisionUp(Character c, Wave wave) {
-		if (c.yCoord <= wave.yCoord + wave.height - collision && c.yCoord >= wave.yCoord + wave.height / 4) {
-			if (c.xCoord >= wave.xCoord - collision && c.xCoord <= wave.xCoord + wave.width - (collision * 2)) {
-				c.yCoord += 10;
-			}
-			if (c.xCoord + c.width >= wave.xCoord + wave.width
-					&& c.xCoord + c.width <= wave.xCoord + wave.width - (collision * 2)) {
-				c.yCoord += 10;
-			}
-			if (c.xCoord + c.width / 2 >= wave.xCoord
-					&& c.xCoord + c.width / 2 <= wave.xCoord + wave.width - collision) {
-				c.yCoord += 5;
-			}
-		}
-	}
-
-	private void checkYCollisionDown(Character c, Wave wave) {
-		if (c.yCoord + c.height >= wave.yCoord + collision && c.yCoord + c.height <= wave.yCoord + wave.height / 4) {
-			if (c.xCoord >= wave.xCoord + collision && c.xCoord <= wave.xCoord + wave.width - collision) {
-				c.yCoord -= 10;
-			}
-			if (c.xCoord + c.width <= wave.xCoord + wave.width - collision
-					&& c.xCoord + c.width >= wave.xCoord + collision) {
-				c.yCoord -= 10;
-			}
-			if (c.xCoord + c.width / 2 <= wave.xCoord + wave.width - collision
-					&& c.xCoord + c.width >= wave.xCoord + collision) {
-				c.yCoord -= 5;
+				p.yCoord += yVel;
 			}
 		}
 	}
@@ -180,64 +115,53 @@ public class BeachController implements KeyListener {
 		}
 	}
 
-	private void checkVerticalHit(Wave w, Item i) {
-		if (waveHitGabion()) {
-			if (i.xCoord + i.width / 2 >= w.xCoord + w.width / 2) {
-				i.xCoord = w.xCoord + i.width + (collision * 2);
-			} else {
-				i.xCoord = w.xCoord - i.width - (collision * 2);
+
+	public void waveHit(Wave w) {
+		this.hitBarrier = false;
+		for (Item b : beach.barriers) {
+			Rectangle barrier = new Rectangle(b.xCoord, b.yCoord, 100, 100);
+			Rectangle wave = new Rectangle(w.xCoord, w.yCoord, 100, 100);
+			if (wave.intersects(barrier)) {
+				this.hitBarrier = true;
+
+				if (b.itemType.equals("Gabion")) {
+					beach.numGabions++;
+					b.health -= w.getDamage();
+				}
+				if (b.itemType.equals("Wall")) {
+					beach.numWalls++;
+					b.health -= w.getDamage();
+				}
+				if (b.itemType.equals("Grass")) {
+					beach.numGrass++;
+					b.health -= w.getDamage();
+				}
+				System.out.println("Barrier HIT!!");
 			}
-			i.health -= w.getDamage();
 		}
-		if (waveHitWall(w)) {
-			if (i.xCoord + i.width / 2 >= w.xCoord + w.width / 2) {
-				i.xCoord = w.xCoord + i.width + (collision * 2);
-			} else {
-				i.xCoord = w.xCoord - i.width - (collision * 2);
-			}
-			i.health -= w.getDamage();
-		}
-		if (waveHitGrass(w)) {
-			if (i.xCoord + i.width / 2 >= w.xCoord + w.width / 2) {
-				i.xCoord = w.xCoord + i.width + (collision * 2);
-			} else {
-				i.xCoord = w.xCoord - i.width - (collision * 2);
-			}
-			i.health -= w.getDamage();
-		}
+
 	}
 
-	public boolean waveHitGabion() {
-		hitBarrier = false;
-		Rectangle barrierz = new Rectangle(beach.gabion.xCoord, beach.gabion.yCoord, 100, 100);
-		Rectangle wavez = new Rectangle(beach.wave.xCoord, beach.wave.yCoord, 100, 100);
-		if (wavez.intersects(barrierz)) {
-			hitBarrier = true;
-			System.out.println(true);
+	public void pickUpCurrency(Player c) {
+		this.pickUp = false;
+		for (Item i : beach.currencyArr) {
+			Rectangle pickUps = new Rectangle(i.xCoord, i.yCoord, 100, 100);
+			Rectangle player = new Rectangle(c.xCoord, c.yCoord, 100, 100);
+			if (player.intersects(pickUps)) {
+				this.pickUp = true;
+				beach.currency.remove(i);
+				if (i.itemType.equals("Oyster")) {
+					beach.numOysters++;
+				}
+				if (i.itemType.equals("Block")) {
+					beach.numBlocks++;
+				}
+				if (i.itemType.equals("Seed")) {
+					beach.numSeeds++;
+				}
+				System.out.println("Picked up currency");
+			}
 		}
-
-		return hitBarrier;
-	}
-
-	public boolean waveHitWall(Wave w) {
-		hitBarrier = false;
-		Rectangle barrierz = new Rectangle(beach.wall.xCoord, beach.wall.yCoord, beach.wall.xCoord, beach.wall.yCoord);
-		Rectangle wavez = new Rectangle(w.xCoord, w.yCoord, w.width - collision, w.height - collision);
-		if (barrierz.intersects(wavez)) {
-			hitBarrier = true;
-		}
-		return hitBarrier;
-	}
-
-	public boolean waveHitGrass(Wave w) {
-		hitBarrier = false;
-		Rectangle barrierz = new Rectangle(beach.grass.xCoord, beach.grass.yCoord, beach.grass.xCoord,
-				beach.grass.yCoord);
-		Rectangle wavez = new Rectangle(w.xCoord, w.yCoord, w.width - collision, w.height - collision);
-		if (barrierz.intersects(wavez)) {
-			hitBarrier = true;
-		}
-		return hitBarrier;
 	}
 
 	@Override

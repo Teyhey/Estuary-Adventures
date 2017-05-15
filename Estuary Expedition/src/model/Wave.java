@@ -6,8 +6,8 @@ public class Wave{
 	int speed;
 	public int xCoord = 0;
 	public int yCoord = 250;
-	public int width = 150;
-	public int height = 108;
+	public int width = 130;
+	public int height = 80;
 	int direction = 0;
 	
 	public Wave(int x, int y){
