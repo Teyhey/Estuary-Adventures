@@ -30,9 +30,9 @@ public class CubeController extends CubeModel{
 				if ((x >= cModel.getRollDiceXLoc() && x <= (cModel.getRollDiceXLoc()) + cModel.getRollDiceEdge())
 						&& (y >= cModel.getRollDiceYLoc() && (y <= cModel.getRollDiceYLoc() + cModel.getRollDiceEdge())))
 				{
-					cModel.rollDice();
+					cView.rollDice();
 					cubeState = "rolling";
-					frame.addKeyListener((KeyListener) cView);
+					frame.addMouseListener(cubeController);
 					
 				}
 					//mazeView = new MazeView();

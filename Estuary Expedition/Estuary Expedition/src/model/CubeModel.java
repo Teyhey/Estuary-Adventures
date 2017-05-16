@@ -11,19 +11,12 @@ import view.CubeView;
 public class CubeModel {
 	
 	public String cubeState;
-	protected CubeView cView;
 	protected int frameWidth;
 	protected int frameHeight;
 	protected int rollDiceXLoc;
 	protected int rollDiceYLoc;
 	protected int rollDiceEdge;
-	protected String[] dicePics = { "Game Files/DeadFish.jpg", "Game Files/DogPoop.jpg", "Game Files/Heart.jpg",
-			"Game Files/RoofGuy.jpg", "Game Files/Wizzel.jpg", "Game Files/Crab.jpg", "Game Files/Chicken.jpg" };
-	protected String dice1;
-	protected String dice2;
-	protected String dice3;
-	protected String dice4;
-	protected String dice5;
+
 	public JButton submit;
 	public JTextField userStory;
 	protected int randomPic;
@@ -33,7 +26,6 @@ public class CubeModel {
 	public CubeModel()
 	{
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		this.cView = null;
 		this.cubeState = "not-rolling";
 		this.frameWidth = (int) screenSize.getWidth();
 		this.frameHeight = (int) screenSize.getHeight();
@@ -51,23 +43,6 @@ public class CubeModel {
 		
 	}
 	
-	public void rollDice()
-	{
-		randomPic = rand.nextInt(dicePics.length - 1) + 0;
-		dice1 = dicePics[randomPic];
-		
-		randomPic = rand.nextInt(dicePics.length - 1) + 0;
-		dice2 = dicePics[randomPic];
-		
-		randomPic = rand.nextInt(dicePics.length - 1) + 0;
-		dice3 = dicePics[randomPic];
-		
-		randomPic = rand.nextInt(dicePics.length - 1) + 0;
-		dice4 = dicePics[randomPic];
-		
-		randomPic = rand.nextInt(dicePics.length - 1) + 0;
-		dice5 = dicePics[randomPic];
-	}
 	
 	public int getRollDiceXLoc()
 	{

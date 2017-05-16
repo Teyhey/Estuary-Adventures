@@ -83,7 +83,6 @@ public class GameController extends GameModel {
 			cubeView.rollDice();
 			for(int i = 0; i < 6; i++)
 				cubeView.cubeState = "rolling";
-			frame.addKeyListener((KeyListener) cubeView);
 			cubeView.cubeState = "non-rolling";
 
 			//we will see if this works

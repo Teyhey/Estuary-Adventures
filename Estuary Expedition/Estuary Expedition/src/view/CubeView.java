@@ -93,11 +93,17 @@ public class CubeView extends CubeController {
 		userStory = new JTextField("Enter your Story here");
 		userStory.setSize(200, 50);
 		userStory.setLocation(300, 400);
+		randomPic = rand.nextInt(dicePics.length);
+		rollDice();
+		
+		
+		/*
 		dice1 = dicePics[randomPic];
 		dice2 = dicePics[randomPic];
 		dice3 = dicePics[randomPic];
 		dice4 = dicePics[randomPic];
 		dice5 = dicePics[randomPic];
+		*/
 	} 
 
 	/**
@@ -164,28 +170,14 @@ public class CubeView extends CubeController {
 			g.drawImage(diceFour, 800, 100, null);
 			g.drawImage(diceFive, 1050, 100, null);
 		
-			if(this.cubeState.equals("rolling"))
-			{
+			if(this.cubeState.equals("rolling")){
 				rollDice();
-				
-				
-				/*
-				Random rand = new Random();
-				int index = rand.nextInt(7);
-				diceOne = ImageIO.read(new File(dicePics[index]));
-				diceTwo = ImageIO.read(new File(dicePics[index]));
-				diceThree = ImageIO.read(new File(dicePics[index]));
-				diceFour = ImageIO.read(new File(dicePics[index]));
-				diceFive = ImageIO.read(new File(dicePics[index]));
-				*/
 				g.drawImage(diceOne, 50, 100, null);
 				g.drawImage(diceTwo, 300, 100, null);
 				g.drawImage(diceThree, 550, 100, null);
 				g.drawImage(diceFour, 800, 100, null);
 				g.drawImage(diceFive, 1050, 100, null);
 			}
-			/*frame.add(userStory);
-			userStory.repaint();*/
 			
 		} catch (IOException e) {
 			e.printStackTrace();
