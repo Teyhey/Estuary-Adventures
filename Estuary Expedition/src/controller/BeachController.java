@@ -174,12 +174,15 @@ public class BeachController implements KeyListener {
 			setyVel(-5);
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			setyVel(5);
-		} else if (e.getKeyCode() == KeyEvent.VK_1) {
+		} else if (e.getKeyCode() == KeyEvent.VK_1 && beach.numOysters >= 5) {
 			beach.createBarrier("Gabion");
-		} else if (e.getKeyCode() == KeyEvent.VK_2) {
+			beach.numOysters -= 5;
+		} else if (e.getKeyCode() == KeyEvent.VK_2 && beach.numBlocks >= 8) {
 			beach.createBarrier("Wall");
-		} else if (e.getKeyCode() == KeyEvent.VK_3) {
+			beach.numBlocks -= 8;
+		} else if (e.getKeyCode() == KeyEvent.VK_3 && beach.numSeeds >= 12) {
 			beach.createBarrier("Grass");
+			beach.numSeeds -= 12;
 		}
 	}
 
